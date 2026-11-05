@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product View — Hijab ul Munnazah</title>
+  <meta name="description" content="View details, fabric specifications, color swatches, and wholesale rates. 100% Cash on Delivery with open parcel inspection before paying nationwide." />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="images/favicon.png" />
+  <link rel="apple-touch-icon" href="images/logo.png" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/design-system.css" />
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Tracker Engine -->
+  <script src="js/tracker.js"></script>
+</head>
+<body>
+
+  <!-- ============ HEADER ============ -->
+  <header class="header">
+    <div class="container">
+      <a href="index.html" class="logo">
+        <img src="images/logo.png" alt="Hijab ul Munnazah Logo" class="logo-img" />
+        <div class="logo-text">
+          <span class="logo-brand">HIJAB UL MUNNAZAH</span>
+          <span class="logo-tagline">Manufacturer & Wholesale • Est. 2026</span>
+        </div>
+      </a>
+
+      <nav class="nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="collection.html" class="nav-link">Collection</a>
+        <a href="index.html#fabric-guide" class="nav-link">Fabrics</a>
+        <a href="index.html#wholesale" class="nav-link">Wholesale</a>
+        <a href="faq.html" class="nav-link">FAQ</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </nav>
+
+      <div class="header-actions">
+        <button type="button" class="vip-btn-header" id="openVipNavBtn" title="VIP Member Access">
+          <i class="fas fa-crown"></i> VIP Club
+        </button>
+
+        <button type="button" class="cart-toggle-btn" aria-label="View Shopping Bag" title="Shopping Bag">
+          <i class="fas fa-shopping-bag"></i>
+          <span class="cart-badge" style="display: none;">0</span>
+        </button>
+
+        <button class="menu-toggle" aria-label="Toggle navigation menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ ALERT BAR ============ -->
+  <div class="alert-bar" id="openRememberModal" role="button" tabindex="0" title="Click for VIP Member Rs. 500 Discount Voucher">
+    <div class="alert-ticker">
+      <div class="alert-ticker-track">
+        <div class="alert-ticker-item">
+          <span class="alert-pulse"></span>
+          <span class="alert-badge-pill">VIP PERK</span>
+          <span>Click to claim your <strong>Rs. 500 Discount Voucher</strong></span>
+          <span class="alert-sep">✦</span>
+          <span>Direct Factory & Wholesale Rates (20–40% Below Retail)</span>
+          <span class="alert-sep">✦</span>
+          <span>Open Parcel Inspection (Check before paying COD)</span>
+          <i class="fas fa-arrow-right alert-arrow"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ PRODUCT VIEW SECTION ============ -->
+  <section class="product-view-section">
+    <div class="container">
+
+      <!-- Breadcrumbs -->
+      <nav class="breadcrumb-nav">
+        <a href="index.html">Home</a>
+        <i class="fas fa-chevron-right" style="font-size: 0.75rem;"></i>
+        <a href="collection.html">Collection</a>
+        <i class="fas fa-chevron-right" style="font-size: 0.75rem;"></i>
+        <span id="breadcrumbCurrentTitle">Royal Georgette Stole — Mocha Mauve</span>
+      </nav>
+
+      <!-- Fast Switcher Bar -->
+      <div style="display: flex; gap: 10px; overflow-x: auto; padding-bottom: 16px; margin-bottom: 24px;">
+        <a href="product.html?id=chiffon-mocha" class="btn btn-sm btn-outline prod-switch-link active" data-id="chiffon-mocha">
+          <i class="fas fa-wind"></i> Royal Chiffon
+        </a>
+        <a href="product.html?id=silk-champagne" class="btn btn-sm btn-outline prod-switch-link" data-id="silk-champagne">
+          <i class="fas fa-gem"></i> Malaki Silk
+        </a>
+        <a href="product.html?id=modal-taupe" class="btn btn-sm btn-outline prod-switch-link" data-id="modal-taupe">
+          <i class="fas fa-feather"></i> Turkish Modal
+        </a>
+        <a href="product.html?id=jersey-charcoal" class="btn btn-sm btn-outline prod-switch-link" data-id="jersey-charcoal">
+          <i class="fas fa-tshirt"></i> Ribbed Jersey
+        </a>
+        <a href="product.html?id=abaya-dubai" class="btn btn-sm btn-outline prod-switch-link" data-id="abaya-dubai">
+          <i class="fas fa-female"></i> Dubai Abaya
+        </a>
+      </div>
+
+      <!-- Main Detail Grid -->
+      <div class="product-detail-grid">
+        
+        <!-- Left: Image Gallery -->
+        <div class="gallery-container">
+          <div class="gallery-main-view">
+            <img id="mainGalleryImg" src="images/products/chiffon-mocha.jpg" alt="Selected Hijab" />
+            <div class="product-badges" style="top: 16px; left: 16px;">
+              <span class="badge badge-sale" id="detailSaveBadge">SAVE 39%</span>
+              <span class="badge badge-wholesale">DIRECT FACTORY RATE</span>
+            </div>
+          </div>
+
+          <div class="gallery-thumbnails-strip" id="galleryThumbnails">
+            <div class="gallery-thumb active" onclick="switchMainImage('images/products/chiffon-mocha.jpg', this)">
+              <img src="images/products/chiffon-mocha.jpg" alt="Mocha" />
+            </div>
+            <div class="gallery-thumb" onclick="switchMainImage('images/products/chiffon-black.jpg', this)">
+              <img src="images/products/chiffon-black.jpg" alt="Black" />
+            </div>
+            <div class="gallery-thumb" onclick="switchMainImage('images/products/chiffon-sage.jpg', this)">
+              <img src="images/products/chiffon-sage.jpg" alt="Sage" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Content & Controls -->
+        <div class="product-detail-content">
+          <div class="detail-badge-strip">
+            <span class="section-subtitle" id="detailCatSubtitle" style="margin-bottom: 0;">PREMIUM CHIFFON GEORGETTE</span>
+          </div>
+
+          <h1 class="detail-title" id="detailHeadingTitle">Royal Georgette Stole — Mocha Mauve</h1>
+
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+            <div style="color: #F4B400; font-size: 0.9rem;">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+            </div>
+            <span style="font-size: 0.85rem; color: var(--color-text-dim);">(128 Verified Reviews) • In Stock (Karachi Dispatch)</span>
+          </div>
+
+          <div class="detail-price-box">
+            <span class="detail-price-main" id="detailCurrentPrice">Rs. 850</span>
+            <span class="detail-price-original" id="detailOriginalPrice">Rs. 1,400</span>
+            <span class="detail-save-pill" id="detailSaveText">Save Rs. 550 (Factory Price)</span>
+          </div>
+
+          <p class="detail-desc" id="detailDescriptionText">
+            Woven with heavy double-crepe Korean Georgette yarn. Features a stay-in-place fall that eliminates constant re-adjustments and slippery headaches. Beautifully finished with delicate laser-cut edges and baby-hemming.
+          </p>
+
+          <!-- Color Swatch Selector -->
+          <div class="detail-selector-group">
+            <label class="selector-label">Choose Shade: <span id="selectedColorLabel" style="color: var(--color-primary-dark); font-weight: 700;">Mocha Mauve</span></label>
+            <div class="color-options-wrap" id="colorOptionsWrap">
+              <!-- Dynamically populated or updated -->
+              <button type="button" class="color-option-btn active" data-color="Mocha Mauve" data-img="images/products/chiffon-mocha.jpg">
+                <span class="color-option-dot" style="background: #8D7261;"></span> Mocha Mauve
+              </button>
+              <button type="button" class="color-option-btn" data-color="Jet Black" data-img="images/products/chiffon-black.jpg">
+                <span class="color-option-dot" style="background: #111111;"></span> Jet Black
+              </button>
+              <button type="button" class="color-option-btn" data-color="Olive Sage" data-img="images/products/chiffon-sage.jpg">
+                <span class="color-option-dot" style="background: #8A9A86;"></span> Olive Sage
+              </button>
+            </div>
+          </div>
+
+          <!-- Quantity Row -->
+          <div class="quantity-row">
+            <label class="selector-label" style="margin-bottom: 0;">Quantity:</label>
+            <div class="qty-control">
+              <button type="button" class="qty-btn" id="qtyMinusBtn">−</button>
+              <input type="text" id="detailQtyInput" class="qty-input" value="1" readonly />
+              <button type="button" class="qty-btn" id="qtyPlusBtn">+</button>
+            </div>
+            <span style="font-size: 0.85rem; color: #2E7D32; font-weight: 600;">
+              <i class="fas fa-check-circle"></i> Ready to Dispatch Today
+            </span>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="detail-cta-row">
+            <button type="button" class="btn btn-primary btn-lg" id="detailAddToCartBtn">
+              <i class="fas fa-shopping-bag"></i> Add to Bag
+            </button>
+            <button type="button" class="btn btn-gold btn-lg" id="detailDirectCheckoutBtn">
+              <i class="fas fa-truck"></i> Cash on Delivery
+            </button>
+            <a href="#" id="detailWhatsAppBuyBtn" target="_blank" class="btn btn-whatsapp btn-lg btn-detail-wa">
+              <i class="fab fa-whatsapp"></i> Buy via WhatsApp (Instant Order)
+            </a>
+          </div>
+
+          <!-- Parcel Inspection Guarantee -->
+          <div class="parcel-inspection-alert">
+            <i class="fas fa-box-open parcel-alert-icon"></i>
+            <div class="parcel-alert-text">
+              <strong>Open Parcel Inspection Before Payment:</strong>
+              <span>Tashaffi karke courier rider se parcel khol kar check karein. 100% Peace of Mind!</span>
+            </div>
+          </div>
+
+          <!-- Specs Table -->
+          <table class="product-specs-table">
+            <tbody>
+              <tr>
+                <th>Fabric Material</th>
+                <td id="specFabric">Korean Georgette Chiffon (Heavy Double Crepe)</td>
+              </tr>
+              <tr>
+                <th>Dimensions</th>
+                <td id="specDimensions">75 cm x 185 cm (Full Modest Coverage)</td>
+              </tr>
+              <tr>
+                <th>Opacity & Texture</th>
+                <td id="specOpacity">95% Opaque, Textured Matte, 100% Non-Slip</td>
+              </tr>
+              <tr>
+                <th>Washing Instructions</th>
+                <td>Gentle Hand Wash or Delicates Bag; Low Steam Iron</td>
+              </tr>
+              <tr>
+                <th>Delivery Time</th>
+                <td>2 to 4 Working Days Nationwide (Karachi same-day/next-day)</td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col footer-brand">
+          <a href="index.html" class="logo">
+            <img src="images/logo.png" alt="Hijab ul Munnazah" class="logo-img" />
+            <div class="logo-text">
+              <span class="logo-brand">HIJAB UL MUNNAZAH</span>
+              <span class="logo-tagline" style="color: var(--color-gold-light);">Pure Modesty & Wholesale</span>
+            </div>
+          </a>
+          <p>
+            Direct manufacturer & wholesale distributor of premium hijabs, stoles, abayas, and modest wear. Guaranteed factory rates with open parcel inspection nationwide in Pakistan.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Collections</h4>
+          <ul class="footer-links">
+            <li><a href="collection.html">All Products</a></li>
+            <li><a href="collection.html?cat=chiffon">Chiffon Georgette Stoles</a></li>
+            <li><a href="collection.html?cat=silk">Korean Malaki Silk</a></li>
+            <li><a href="collection.html?cat=modal">Everyday Turkish Modal</a></li>
+            <li><a href="collection.html?cat=abayas">Classic Dubai Abayas</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Customer Care</h4>
+          <ul class="footer-links">
+            <li><a href="faq.html">Frequently Asked Questions</a></li>
+            <li><a href="contact.html">Contact Us & Support</a></li>
+            <li><a href="contact.html#wholesale-inquiry">Wholesale Registration</a></li>
+            <li><a href="privacy-policy.html">Privacy Policy</a></li>
+            <li><a href="terms-and-conditions.html">Terms & Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col footer-contact">
+          <h4>Direct Contact</h4>
+          <ul>
+            <li>
+              <i class="fab fa-whatsapp"></i>
+              <div>
+                <strong>WhatsApp Order Desk:</strong>
+                <a href="https://wa.me/923071771829">+92 307 1771829</a>
+              </div>
+            </li>
+            <li>
+              <i class="fas fa-envelope"></i>
+              <div>
+                <strong>Official Email:</strong>
+                <a href="mailto:hijabulmunazzah@gmail.com">hijabulmunazzah@gmail.com</a>
+              </div>
+            </li>
+            <li>
+              <i class="fas fa-map-marker-alt"></i>
+              <div>
+                <strong>Manufacturer Hub:</strong>
+                <span>Karachi Wholesale Fabric Market, Sindh, Pakistan</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>
+          © <span id="currentYear">2026</span> <strong>Hijab ul Munnazah</strong>. All rights reserved.
+        </div>
+        <div>
+          <span>100% Cash on Delivery</span> • <span>Open Parcel Tashaffi Guarantee</span> • <span>Nationwide Shipping</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============ CART DRAWER & OVERLAY ============ -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <aside class="cart-drawer" id="cartDrawer" aria-label="Shopping Cart">
+    <div class="cart-header">
+      <h3><i class="fas fa-shopping-bag" style="color: var(--color-primary);"></i> Your Shopping Bag</h3>
+      <button type="button" class="cart-close-btn" id="cartCloseBtn" aria-label="Close Bag">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <div class="cart-shipping-meter">
+      <div id="shippingMeterText">Add items to get <strong>FREE Delivery</strong>!</div>
+      <div class="shipping-bar-bg">
+        <div class="shipping-bar-fill" id="shippingBarFill"></div>
+      </div>
+    </div>
+
+    <div class="cart-items-list" id="cartItemsList"></div>
+
+    <div class="cart-footer">
+      <div class="cart-subtotal-row">
+        <span>Subtotal:</span>
+        <span id="cartSubtotalVal" style="color: var(--color-primary-dark);">Rs. 0</span>
+      </div>
+      <button type="button" class="btn btn-primary cart-checkout-btn btn-lg" id="cartCheckoutBtn">
+        <i class="fas fa-lock"></i> Proceed to COD Checkout
+      </button>
+    </div>
+  </aside>
+
+  <!-- ============ CHECKOUT MODAL ============ -->
+  <div class="modal-overlay" id="checkoutModal">
+    <div class="modal-card">
+      <button type="button" class="modal-close-btn" id="closeCheckoutModal"><i class="fas fa-times"></i></button>
+      <span class="modal-badge-pill"><i class="fas fa-truck"></i> Cash on Delivery</span>
+      <h3 class="modal-title">Complete Your Order</h3>
+      <p class="modal-desc">Apni delivery details darj karein. Parcel open karke check karne ki mukammal ijazat hai.</p>
+      <div class="form-error" id="checkoutError"></div>
+      <form id="checkoutForm">
+        <div class="form-group">
+          <label class="form-label">Mukammal Naam (Full Name) *</label>
+          <input type="text" id="custName" class="form-control" placeholder="e.g. Fatima Khan" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">WhatsApp / Mobile Number *</label>
+          <input type="tel" id="custPhone" class="form-control" placeholder="0307 1771829" maxlength="11" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Shehar (City) *</label>
+          <input type="text" id="custCity" class="form-control" placeholder="e.g. Karachi / Lahore / Islamabad" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Mukammal Delivery Address *</label>
+          <textarea id="custAddress" class="form-control" rows="2" placeholder="House number, street, area" required></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Order Note (Optional)</label>
+          <input type="text" id="custNote" class="form-control" placeholder="e.g. Call before delivery" />
+        </div>
+        <div style="background: var(--color-bg-alt); padding: 14px 18px; border-radius: var(--radius-sm); margin: 18px 0; font-size: 0.9rem;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+            <span>Subtotal:</span>
+            <strong id="checkoutSubtotal">Rs. 0</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+            <span>Delivery Charges:</span>
+            <strong id="checkoutShipping" style="color: #2E7D32;">Calculating...</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 1.05rem; font-weight: 700; border-top: 1px solid var(--color-border); padding-top: 8px;">
+            <span>Payable on Delivery:</span>
+            <span id="checkoutFinalTotal" style="color: var(--color-primary-dark);">Rs. 0</span>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-whatsapp btn-lg" style="width: 100%;">
+          <i class="fab fa-whatsapp"></i> Confirm Order on WhatsApp
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============ VIP MODAL ============ -->
+  <div class="modal-overlay" id="rememberModal">
+    <div class="modal-card">
+      <button type="button" class="modal-close-btn" id="closeRememberModal"><i class="fas fa-times"></i></button>
+      <div id="rememberForm">
+        <span class="modal-badge-pill"><i class="fas fa-gift"></i> VIP Club Voucher</span>
+        <h3 class="modal-title">Join Hijab ul Munnazah VIP</h3>
+        <p class="modal-desc">Enter your details to receive an instant <strong>Rs. 500 Discount Voucher</strong> on your order!</p>
+        <div class="modal-tabs">
+          <button type="button" class="modal-tab-btn active" id="tabPhoneBtn"><i class="fab fa-whatsapp"></i> WhatsApp / Phone</button>
+          <button type="button" class="modal-tab-btn" id="tabEmailBtn"><i class="fas fa-envelope"></i> Email Address</button>
+        </div>
+        <div class="form-error" id="rememberError"></div>
+        <div class="form-group">
+          <label class="form-label">Apna Naam *</label>
+          <input type="text" id="rememberName" class="form-control" placeholder="Fatima Khan" required />
+        </div>
+        <div class="form-group" id="fieldPhoneGroup">
+          <label class="form-label">WhatsApp Number *</label>
+          <input type="tel" id="rememberPhone" class="form-control" placeholder="0307 1771829" maxlength="11" />
+        </div>
+        <div class="form-group" id="fieldEmailGroup" style="display: none;">
+          <label class="form-label">Email Address *</label>
+          <input type="email" id="rememberEmail" class="form-control" placeholder="name@gmail.com" />
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg" style="width: 100%; margin-top: 10px;">
+          <i class="fas fa-unlock-alt"></i> Unlock Rs. 500 Voucher
+        </button>
+      </div>
+
+      <div id="rememberSuccess" style="display: none; text-align: center;">
+        <span class="modal-badge-pill" style="background: #EDF7EE; color: #2E7D32;">VOUCHER UNLOCKED</span>
+        <h3 class="modal-title" style="margin-top: 8px;">Congratulations!</h3>
+        <p class="modal-desc">Aapka exclusive Rs. 500 VIP voucher ready hai.</p>
+        <div class="voucher-box">
+          <div class="voucher-code">HUM-VIP500</div>
+          <button type="button" class="btn btn-sm btn-outline" id="copyVoucherBtn"><i class="fas fa-copy"></i> Copy Code</button>
+        </div>
+        <a href="https://wa.me/923071771829" id="claimOnWhatsAppBtn" target="_blank" class="btn btn-whatsapp btn-lg" style="width: 100%; margin-bottom: 12px;">
+          <i class="fab fa-whatsapp"></i> Confirm & Claim on WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ WHATSAPP FLOATING BUTTON ============ -->
+  <a href="https://wa.me/923071771829?text=Assalam%20o%20Alaikum%20Hijab%20ul%20Munnazah!%20Mujhe%20collection%20dekhni%20hai." target="_blank" class="whatsapp-float">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+
+  <!-- ============ SCRIPTS ============ -->
+  <script src="js/main.js"></script>
+  <script>
+    // Product Database for interactive view switching
+    const PRODUCT_CATALOG = {
+      'chiffon-mocha': {
+        title: 'Royal Georgette Stole — Mocha Mauve',
+        catSubtitle: 'PREMIUM CHIFFON GEORGETTE',
+        price: 850,
+        originalPrice: 1400,
+        saveBadge: 'SAVE 39%',
+        saveText: 'Save Rs. 550 (Factory Price)',
+        image: 'images/products/chiffon-mocha.jpg',
+        desc: 'Woven with heavy double-crepe Korean Georgette yarn. Features a stay-in-place fall that eliminates constant re-adjustments and slippery headaches. Beautifully finished with delicate laser-cut edges and baby-hemming.',
+        fabric: 'Korean Georgette Chiffon (Heavy Double Crepe)',
+        dimensions: '75 cm x 185 cm (Full Modest Coverage)',
+        opacity: '95% Opaque, Textured Matte, 100% Non-Slip',
+        thumbs: [
+          'images/products/chiffon-mocha.jpg',
+          'images/products/chiffon-black.jpg',
+          'images/products/chiffon-sage.jpg'
+        ],
+        swatches: [
+          { name: 'Mocha Mauve', color: '#8D7261', img: 'images/products/chiffon-mocha.jpg' },
+          { name: 'Jet Black', color: '#111111', img: 'images/products/chiffon-black.jpg' },
+          { name: 'Olive Sage', color: '#8A9A86', img: 'images/products/chiffon-sage.jpg' }
+        ]
+      },
+      'silk-champagne': {
+        title: 'Korean Malaki Silk — Champagne Gold',
+        catSubtitle: 'FESTIVE MALAKI SILK',
+        price: 1250,
+        originalPrice: 1950,
+        saveBadge: 'SAVE 36%',
+        saveText: 'Save Rs. 700 (Direct Import)',
+        image: 'images/products/silk-champagne.jpg',
+        desc: 'Exquisite Malaki silk crafted with a delicate satin lustre and liquid drape. Featherlight yet fully opaque, making it the supreme choice for nikah ceremonies, weddings, and formal celebrations.',
+        fabric: '100% Korean Malaki Silk Satin',
+        dimensions: '80 cm x 190 cm (Extra Wide)',
+        opacity: '100% Fully Opaque, Subtle Gilded Lustre',
+        thumbs: [
+          'images/products/silk-champagne.jpg',
+          'images/products/silk-emerald.jpg'
+        ],
+        swatches: [
+          { name: 'Champagne Gold', color: '#D4AF37', img: 'images/products/silk-champagne.jpg' },
+          { name: 'Emerald Jewel', color: '#1B4D3E', img: 'images/products/silk-emerald.jpg' }
+        ]
+      },
+      'modal-taupe': {
+        title: 'Everyday Turkish Modal — Warm Taupe',
+        catSubtitle: '100% BOTANICAL TURKISH MODAL',
+        price: 950,
+        originalPrice: 1600,
+        saveBadge: 'SAVE 40%',
+        saveText: 'Save Rs. 650 (Wholesale Price)',
+        image: 'images/products/modal-taupe.jpg',
+        desc: 'Spun from natural Turkish beechwood modal fibers. Incredibly breathable and featherweight, keeping you cool all day in summer. Zero ironing required—simply drape and go.',
+        fabric: '100% Organic Turkish Modal',
+        dimensions: '70 cm x 180 cm',
+        opacity: 'Semi-Opaque, Super Soft Handfeel, Breathable',
+        thumbs: [
+          'images/products/modal-taupe.jpg',
+          'images/products/modal-clay.jpg'
+        ],
+        swatches: [
+          { name: 'Warm Taupe', color: '#9E8B7D', img: 'images/products/modal-taupe.jpg' },
+          { name: 'Terracotta Clay', color: '#B66D58', img: 'images/products/modal-clay.jpg' }
+        ]
+      },
+      'jersey-charcoal': {
+        title: 'Ribbed Jersey — Charcoal Grey',
+        catSubtitle: 'PINLESS STRETCH JERSEY',
+        price: 890,
+        originalPrice: 1350,
+        saveBadge: 'SAVE 34%',
+        saveText: 'Save Rs. 460 (Everyday Value)',
+        image: 'images/products/jersey-charcoal.jpg',
+        desc: 'Premium 4-way stretch ribbed cotton jersey. Grips hair securely without needing a single pin or underscarf cap. Ideal for work, universities, sports, and casual everyday errands.',
+        fabric: '95% Combed Cotton, 5% Spandex Ribbed Knit',
+        dimensions: '75 cm x 180 cm (Stretchable)',
+        opacity: '100% Opaque, Maximum Elasticity & Comfort',
+        thumbs: [
+          'images/products/jersey-charcoal.jpg',
+          'images/products/jersey-latte.jpg'
+        ],
+        swatches: [
+          { name: 'Charcoal Grey', color: '#3B3C3D', img: 'images/products/jersey-charcoal.jpg' },
+          { name: 'Latte Nude', color: '#C4A482', img: 'images/products/jersey-latte.jpg' }
+        ]
+      },
+      'abaya-dubai': {
+        title: 'Classic Front-Open Dubai Nidha Abaya',
+        catSubtitle: 'KOREAN ROYAL NIDHA FABRIC',
+        price: 3450,
+        originalPrice: 5500,
+        saveBadge: 'SAVE 37%',
+        saveText: 'Save Rs. 2,050 (Direct Import)',
+        image: 'images/products/abaya-dubai.jpg',
+        desc: 'Tailored from premium Korean Royal Nidha with graceful bell sleeves, hidden front snap buttons, and side pockets. Includes a complimentary matching Chiffon Georgette Hijab.',
+        fabric: 'Premium Korean Royal Nidha with Georgette Sheen',
+        dimensions: 'Available in standard lengths 52, 54, 56 (Chest 44-48 free)',
+        opacity: '100% Fully Opaque, Flowing Umbrella Fall',
+        thumbs: [
+          'images/products/abaya-dubai.jpg',
+          'images/products/abaya-mocha.jpg'
+        ],
+        swatches: [
+          { name: 'Obsidian Black', color: '#151515', img: 'images/products/abaya-dubai.jpg' },
+          { name: 'Mocha Espresso', color: '#4A3B32', img: 'images/products/abaya-mocha.jpg' }
+        ]
+      }
+    };
+
+    let currentProdKey = 'chiffon-mocha';
+    let selectedColor = 'Mocha Mauve';
+    let currentQty = 1;
+
+    function switchMainImage(src, thumbEl) {
+      document.querySelector('#mainGalleryImg').src = src;
+      if (thumbEl) {
+        document.querySelectorAll('.gallery-thumb').forEach(t => t.classList.remove('active'));
+        thumbEl.classList.add('active');
+      }
+    }
+
+    function renderProduct(key) {
+      const p = PRODUCT_CATALOG[key] || PRODUCT_CATALOG['chiffon-mocha'];
+      currentProdKey = key;
+      selectedColor = p.swatches[0].name;
+      currentQty = 1;
+
+      // Update switcher active pill
+      document.querySelectorAll('.prod-switch-link').forEach(link => {
+        link.classList.toggle('active', link.dataset.id === key);
+      });
+
+      // Update text
+      document.querySelector('#breadcrumbCurrentTitle').textContent = p.title;
+      document.querySelector('#detailHeadingTitle').textContent = p.title;
+      document.querySelector('#detailCatSubtitle').textContent = p.catSubtitle;
+      document.querySelector('#detailCurrentPrice').textContent = `Rs. ${p.price.toLocaleString()}`;
+      document.querySelector('#detailOriginalPrice').textContent = `Rs. ${p.originalPrice.toLocaleString()}`;
+      document.querySelector('#detailSaveBadge').textContent = p.saveBadge;
+      document.querySelector('#detailSaveText').textContent = p.saveText;
+      document.querySelector('#detailDescriptionText').textContent = p.desc;
+      document.querySelector('#specFabric').textContent = p.fabric;
+      document.querySelector('#specDimensions').textContent = p.dimensions;
+      document.querySelector('#specOpacity').textContent = p.opacity;
+      document.querySelector('#selectedColorLabel').textContent = selectedColor;
+      document.querySelector('#detailQtyInput').value = currentQty;
+
+      // Update Gallery
+      document.querySelector('#mainGalleryImg').src = p.image;
+      const thumbsContainer = document.querySelector('#galleryThumbnails');
+      thumbsContainer.innerHTML = p.thumbs.map((imgSrc, i) => `
+        <div class="gallery-thumb ${i === 0 ? 'active' : ''}" onclick="switchMainImage('${imgSrc}', this)">
+          <img src="${imgSrc}" alt="${p.title}" />
+        </div>
+      `).join('');
+
+      // Update Swatches
+      const swatchesContainer = document.querySelector('#colorOptionsWrap');
+      swatchesContainer.innerHTML = p.swatches.map((sw, i) => `
+        <button type="button" class="color-option-btn ${i === 0 ? 'active' : ''}" data-color="${sw.name}" data-img="${sw.img}">
+          <span class="color-option-dot" style="background: ${sw.color};"></span> ${sw.name}
+        </button>
+      `).join('');
+
+      // Bind swatch clicks
+      swatchesContainer.querySelectorAll('.color-option-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          swatchesContainer.querySelectorAll('.color-option-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          selectedColor = btn.dataset.color;
+          document.querySelector('#selectedColorLabel').textContent = selectedColor;
+          if (btn.dataset.img) {
+            switchMainImage(btn.dataset.img);
+          }
+          if (window.HUMTracker) window.HUMTracker.setProductVariant(selectedColor);
+          updateWhatsAppLink();
+        });
+      });
+
+      updateWhatsAppLink();
+    }
+
+    function updateWhatsAppLink() {
+      const p = PRODUCT_CATALOG[currentProdKey] || PRODUCT_CATALOG['chiffon-mocha'];
+      const total = p.price * currentQty;
+      const msg = `*🌸 NAYI ORDER INQUIRY — HIJAB UL MUNNAZAH 🌸*\n\nProduct: ${p.title}\nSelected Shade: ${selectedColor}\nQuantity: ${currentQty}\nPrice: Rs. ${total.toLocaleString()}\n\nBaraye meharbani Cash on Delivery confirmation process karein. Shukriya!`;
+      const waBtn = document.querySelector('#detailWhatsAppBuyBtn');
+      if (waBtn) {
+        waBtn.href = `https://wa.me/923071771829?text=${encodeURIComponent(msg)}`;
+      }
+    }
+
+    // Quantity buttons
+    document.querySelector('#qtyMinusBtn').addEventListener('click', () => {
+      if (currentQty > 1) {
+        currentQty--;
+        document.querySelector('#detailQtyInput').value = currentQty;
+        updateWhatsAppLink();
+      }
+    });
+
+    document.querySelector('#qtyPlusBtn').addEventListener('click', () => {
+      currentQty++;
+      document.querySelector('#detailQtyInput').value = currentQty;
+      updateWhatsAppLink();
+    });
+
+    // Add to cart
+    document.querySelector('#detailAddToCartBtn').addEventListener('click', () => {
+      const p = PRODUCT_CATALOG[currentProdKey] || PRODUCT_CATALOG['chiffon-mocha'];
+      window.addToCart({
+        id: currentProdKey,
+        title: p.title,
+        variant: selectedColor,
+        price: p.price,
+        image: p.image,
+        qty: currentQty
+      });
+    });
+
+    // Direct checkout
+    document.querySelector('#detailDirectCheckoutBtn').addEventListener('click', () => {
+      const p = PRODUCT_CATALOG[currentProdKey] || PRODUCT_CATALOG['chiffon-mocha'];
+      window.addToCart({
+        id: currentProdKey,
+        title: p.title,
+        variant: selectedColor,
+        price: p.price,
+        image: p.image,
+        qty: currentQty
+      });
+      const openCheckoutBtn = document.querySelector('#cartCheckoutBtn');
+      if (openCheckoutBtn) openCheckoutBtn.click();
+    });
+
+    // Initialize from URL param
+    const urlParams = new URLSearchParams(window.location.search);
+    const prodId = urlParams.get('id') || 'chiffon-mocha';
+    renderProduct(prodId);
+  </script>
+</body>
+</html>

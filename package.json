@@ -1,0 +1,19 @@
+{
+  "name": "hijab-ul-munazzah",
+  "version": "1.0.0",
+  "description": "Hijab ul Munnazah — Pure Modest Fashion & Manufacturer Wholesale Collection",
+  "main": "local_server.js",
+  "scripts": {
+    "start": "node local_server.js"
+  },
+  "keywords": [
+    "hijab",
+    "modest-fashion",
+    "wholesale",
+    "pakistan",
+    "chiffon-hijabs",
+    "abayas"
+  ],
+  "author": "Hijab ul Munnazah",
+  "license": "ISC"
+}
