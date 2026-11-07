@@ -71,324 +71,45 @@ document.addEventListener('DOMContentLoaded', () => {
   window.showToast = showToast;
 
   // ==========================================================================
-  // SHOPPING CART ENGINE (localStorage backed)
+  // SOCIAL HUB ENGINE (Instagram DM, WhatsApp, TikTok)
+  // Replaces direct cart/checkout as per Phase 1A architecture
   // ==========================================================================
-  const CART_STORAGE_KEY = 'hum_cart_items';
-  const FREE_SHIPPING_THRESHOLD = 2500;
-  const STANDARD_SHIPPING_FEE = 200;
+  const config = window.HUM_CONFIG || {
+    whatsappNumber: OWNER_WHATSAPP,
+    instagramUsername: 'hijabulmunazzah.pk',
+    tiktokUrl: 'https://www.tiktok.com/@hijabulmunazzah',
+    facebookPageUrl: 'https://facebook.com/hijabulmunazzah',
+    getWhatsAppUrl: (title, page) => `https://wa.me/${OWNER_WHATSAPP}?text=${encodeURIComponent('Assalam o Alaikum! Mujhe ' + (title || 'collection') + ' ke baray mein janna hai.')}`,
+    getInstagramDmUrl: (title, page) => `https://ig.me/m/hijabulmunazzah.pk`,
+    getTikTokUrl: () => `https://www.tiktok.com/@hijabulmunazzah`
+  };
 
-  function getCart() {
-    try {
-      const data = localStorage.getItem(CART_STORAGE_KEY);
-      return data ? JSON.parse(data) : [];
-    } catch (e) {
-      return [];
-    }
-  }
-
-  function saveCart(cart) {
-    try {
-      localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
-      updateCartUI();
-    } catch (e) {}
-  }
-
-  function addToCart(item) {
-    const cart = getCart();
-    const existingIndex = cart.findIndex(c => c.id === item.id && c.variant === item.variant);
-    if (existingIndex > -1) {
-      cart[existingIndex].qty += (item.qty || 1);
-    } else {
-      cart.push({
-        id: item.id,
-        title: item.title,
-        variant: item.variant || 'Standard',
-        price: Number(item.price),
-        image: item.image,
-        qty: item.qty || 1
-      });
-    }
-    saveCart(cart);
-    showToast(`${item.title} added to Bag!`, 'fa-shopping-bag');
-    openCartDrawer();
-  }
-  window.addToCart = addToCart;
-
-  function updateItemQty(index, delta) {
-    const cart = getCart();
-    if (cart[index]) {
-      cart[index].qty += delta;
-      if (cart[index].qty <= 0) {
-        cart.splice(index, 1);
-      }
-      saveCart(cart);
-    }
-  }
-
-  function removeCartItem(index) {
-    const cart = getCart();
-    if (cart[index]) {
-      cart.splice(index, 1);
-      saveCart(cart);
-    }
-  }
-
-  function updateCartUI() {
-    const cart = getCart();
-    const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
-    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-
-    // Update Badges
-    document.querySelectorAll('.cart-badge').forEach(badge => {
-      badge.textContent = totalCount;
-      badge.style.display = totalCount > 0 ? 'flex' : 'none';
-    });
-
-    // Update Drawer Elements
-    const listEl = document.querySelector('#cartItemsList');
-    const subtotalEl = document.querySelector('#cartSubtotalVal');
-    const meterFill = document.querySelector('#shippingBarFill');
-    const meterText = document.querySelector('#shippingMeterText');
-    const checkoutBtn = document.querySelector('#cartCheckoutBtn');
-
-    if (subtotalEl) {
-      subtotalEl.textContent = `Rs. ${subtotal.toLocaleString()}`;
-    }
-
-    if (meterFill && meterText) {
-      if (subtotal >= FREE_SHIPPING_THRESHOLD) {
-        meterFill.style.width = '100%';
-        meterFill.style.background = '#2E7D32';
-        meterText.innerHTML = '🎉 <strong>Mubarak!</strong> You have unlocked <strong>FREE Nationwide Delivery</strong>!';
-      } else {
-        const remaining = FREE_SHIPPING_THRESHOLD - subtotal;
-        const pct = Math.min(100, Math.round((subtotal / FREE_SHIPPING_THRESHOLD) * 100));
-        meterFill.style.width = `${pct}%`;
-        meterFill.style.background = 'var(--color-badge-wholesale)';
-        meterText.innerHTML = `Add <strong>Rs. ${remaining.toLocaleString()}</strong> more to get <strong>FREE Delivery</strong>!`;
-      }
-    }
-
-    if (checkoutBtn) {
-      checkoutBtn.disabled = cart.length === 0;
-    }
-
-    if (listEl) {
-      if (cart.length === 0) {
-        listEl.innerHTML = `
-          <div class="cart-empty-state">
-            <i class="fas fa-shopping-bag"></i>
-            <h4>Your Bag is Empty</h4>
-            <p>Explore our premium hijabs and wholesale bundles!</p>
-            <a href="collection.html" class="btn btn-primary btn-sm" style="margin-top: 14px;">Browse Collection</a>
-          </div>
-        `;
-      } else {
-        listEl.innerHTML = cart.map((item, idx) => `
-          <div class="cart-item">
-            <img src="${item.image}" alt="${item.title}" class="cart-item-img" onerror="this.src='images/logo.png'">
-            <div class="cart-item-details">
-              <h5 class="cart-item-title">${item.title}</h5>
-              <span class="cart-item-variant"><i class="fas fa-tag"></i> ${item.variant}</span>
-              <div class="cart-item-bottom">
-                <div class="cart-item-qty">
-                  <button type="button" class="cart-qty-btn" onclick="window.updateCartQty(${idx}, -1)">−</button>
-                  <span class="cart-qty-val">${item.qty}</span>
-                  <button type="button" class="cart-qty-btn" onclick="window.updateCartQty(${idx}, 1)">+</button>
-                </div>
-                <div style="display:flex; align-items:center;">
-                  <span class="cart-item-price">Rs. ${(item.price * item.qty).toLocaleString()}</span>
-                  <button type="button" class="cart-item-remove" onclick="window.removeCartItemAt(${idx})" title="Remove">
-                    <i class="fas fa-trash-alt"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        `).join('');
-      }
-    }
-  }
-
-  window.updateCartQty = updateItemQty;
-  window.removeCartItemAt = removeCartItem;
-
-  // Drawer Open / Close
-  const cartDrawer = document.querySelector('#cartDrawer');
-  const cartOverlay = document.querySelector('#cartOverlay');
-  const cartToggleBtns = document.querySelectorAll('.cart-toggle-btn');
-  const cartCloseBtn = document.querySelector('#cartCloseBtn');
-
-  function openCartDrawer() {
-    if (cartDrawer && cartOverlay) {
-      updateCartUI();
-      cartDrawer.classList.add('active');
-      cartOverlay.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    }
-  }
-
-  function closeCartDrawer() {
-    if (cartDrawer && cartOverlay) {
-      cartDrawer.classList.remove('active');
-      cartOverlay.classList.remove('active');
-      document.body.style.overflow = '';
-    }
-  }
-
-  cartToggleBtns.forEach(btn => btn.addEventListener('click', (e) => {
-    e.preventDefault();
-    openCartDrawer();
-  }));
-
-  if (cartCloseBtn) cartCloseBtn.addEventListener('click', closeCartDrawer);
-  if (cartOverlay) cartOverlay.addEventListener('click', closeCartDrawer);
-
-  // Initial cart UI render
-  updateCartUI();
-
-  // ==========================================================================
-  // CHECKOUT (CASH ON DELIVERY) MODAL & WHATSAPP ORDER DISPATCH
-  // ==========================================================================
-  const checkoutModal = document.querySelector('#checkoutModal');
-  const openCheckoutBtn = document.querySelector('#cartCheckoutBtn');
-  const closeCheckoutBtn = document.querySelector('#closeCheckoutModal');
-  const checkoutForm = document.querySelector('#checkoutForm');
-  const checkoutError = document.querySelector('#checkoutError');
-
-  function openCheckout() {
-    const cart = getCart();
-    if (cart.length === 0) {
-      showToast('Your bag is empty! Add products first.', 'fa-exclamation-circle');
-      return;
-    }
-    closeCartDrawer();
-    if (checkoutModal) {
-      // Calculate totals
-      const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-      const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : STANDARD_SHIPPING_FEE;
-      const finalTotal = subtotal + shipping;
-
-      const subtotalEl = document.querySelector('#checkoutSubtotal');
-      const shippingEl = document.querySelector('#checkoutShipping');
-      const totalEl = document.querySelector('#checkoutFinalTotal');
-
-      if (subtotalEl) subtotalEl.textContent = `Rs. ${subtotal.toLocaleString()}`;
-      if (shippingEl) shippingEl.textContent = shipping === 0 ? 'FREE' : `Rs. ${shipping}`;
-      if (totalEl) totalEl.textContent = `Rs. ${finalTotal.toLocaleString()}`;
-
-      // Pre-fill name/phone from saved VIP session if any
-      try {
-        const saved = JSON.parse(localStorage.getItem('hum_saved_customer') || '{}');
-        if (saved.name && document.querySelector('#custName')) {
-          document.querySelector('#custName').value = saved.name;
-        }
-        if (saved.phone && document.querySelector('#custPhone')) {
-          document.querySelector('#custPhone').value = saved.phone.replace('+92', '03');
-        }
-      } catch (e) {}
-
-      checkoutModal.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    }
-  }
-
-  function closeCheckout() {
-    if (checkoutModal) {
-      checkoutModal.classList.remove('active');
-      document.body.style.overflow = '';
-    }
-  }
-
-  if (openCheckoutBtn) openCheckoutBtn.addEventListener('click', openCheckout);
-  if (closeCheckoutBtn) closeCheckoutBtn.addEventListener('click', closeCheckout);
-  if (checkoutModal) {
-    checkoutModal.addEventListener('click', (e) => {
-      if (e.target === checkoutModal) closeCheckout();
-    });
-  }
-
-  if (checkoutForm) {
-    const phoneInput = document.querySelector('#custPhone');
-    if (phoneInput) {
-      phoneInput.addEventListener('input', (e) => {
-        e.target.value = e.target.value.replace(/\D/g, '').slice(0, 11);
-      });
-    }
-
-    checkoutForm.addEventListener('submit', (e) => {
+  // Wire all dynamic Social Hub buttons across pages
+  document.querySelectorAll('.btn-social-wa').forEach(btn => {
+    btn.addEventListener('click', (e) => {
       e.preventDefault();
-      const cart = getCart();
-      if (cart.length === 0) return;
-
-      const name = document.querySelector('#custName')?.value.trim();
-      const rawPhone = document.querySelector('#custPhone')?.value.replace(/\D/g, '').trim();
-      const city = document.querySelector('#custCity')?.value.trim();
-      const address = document.querySelector('#custAddress')?.value.trim();
-      const note = document.querySelector('#custNote')?.value.trim();
-
-      if (!name || !rawPhone || !city || !address) {
-        if (checkoutError) {
-          checkoutError.textContent = 'Baraye meharbani tamam zaroori details darj karein.';
-          checkoutError.style.display = 'block';
-        }
-        return;
-      }
-
-      if (rawPhone.length < 10 || rawPhone.length > 11) {
-        if (checkoutError) {
-          checkoutError.textContent = 'Durust Pakistani phone number darj karein (e.g. 0307 1771829).';
-          checkoutError.style.display = 'block';
-        }
-        return;
-      }
-
-      const normalizedPhone = rawPhone.startsWith('0') ? '+92' + rawPhone.substring(1) : '+92' + rawPhone;
-      const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-      const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : STANDARD_SHIPPING_FEE;
-      const finalTotal = subtotal + shipping;
-
-      // Construct Order Receipt
-      let orderMsg = `*🌸 NAYI ORDER CONFIRMATION — HIJAB UL MUNNAZAH 🌸*\n\n`;
-      orderMsg += `*Customer Details:*\n`;
-      orderMsg += `👤 Naam: ${name}\n`;
-      orderMsg += `📱 Phone/WhatsApp: ${normalizedPhone}\n`;
-      orderMsg += `📍 Shehar: ${city}\n`;
-      orderMsg += `🏠 Mukammal Address: ${address}\n`;
-      if (note) orderMsg += `📝 Order Note: ${note}\n`;
-
-      orderMsg += `\n*Selected Items (Manufacturer Rates):*\n`;
-      cart.forEach((it, i) => {
-        orderMsg += `${i + 1}. ${it.title} (${it.variant}) x ${it.qty} = Rs. ${(it.price * it.qty).toLocaleString()}\n`;
-      });
-
-      orderMsg += `\n*Order Summary:*\n`;
-      orderMsg += `Subtotal: Rs. ${subtotal.toLocaleString()}\n`;
-      orderMsg += `Delivery Charges: ${shipping === 0 ? 'FREE (Special Offer)' : 'Rs. ' + shipping}\n`;
-      orderMsg += `*Grand Total (Cash on Delivery): Rs. ${finalTotal.toLocaleString()}*\n`;
-      orderMsg += `\n*Policy:* Parcel khol kar pehle tasalli se check karein, phir payment karein.`;
-
-      // Save customer details for re-use
-      localStorage.setItem('hum_saved_customer', JSON.stringify({
-        name,
-        phone: normalizedPhone,
-        city,
-        address
-      }));
-
-      // Clear Cart
-      saveCart([]);
-
-      // Close modal
-      closeCheckout();
-
-      // Open WhatsApp
-      const waUrl = `https://wa.me/${OWNER_WHATSAPP}?text=${encodeURIComponent(orderMsg)}`;
-      window.open(waUrl, '_blank');
-
-      showToast('Order generated! Opening WhatsApp...', 'fa-check-circle');
+      const title = btn.dataset.productTitle || btn.closest('.product-card')?.querySelector('.product-title')?.textContent?.trim() || '';
+      const url = config.getWhatsAppUrl(title);
+      window.open(url, '_blank');
     });
-  }
+  });
+
+  document.querySelectorAll('.btn-social-ig').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const title = btn.dataset.productTitle || btn.closest('.product-card')?.querySelector('.product-title')?.textContent?.trim() || '';
+      const url = config.getInstagramDmUrl(title);
+      window.open(url, '_blank');
+    });
+  });
+
+  document.querySelectorAll('.btn-social-tt').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const url = config.getTikTokUrl();
+      window.open(url, '_blank');
+    });
+  });
 
   // ==========================================================================
   // VIP REMEMBER ME MODAL (DISCOUNT VOUCHER)

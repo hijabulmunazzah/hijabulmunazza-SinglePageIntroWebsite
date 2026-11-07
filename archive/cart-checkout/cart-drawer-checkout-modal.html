@@ -1,0 +1,78 @@
+<!-- ==========================================================================
+   ARCHIVED: Shopping Cart Drawer & Cash on Delivery Checkout Modal Markup
+   Date: 8 Nov 2026
+   ========================================================================== -->
+
+<!-- Cart Overlay & Drawer -->
+<div class="cart-overlay" id="cartOverlay"></div>
+<aside class="cart-drawer" id="cartDrawer" aria-label="Shopping Cart">
+  <div class="cart-header">
+    <h3 class="cart-title"><i class="fas fa-shopping-bag"></i> Your Bag</h3>
+    <button type="button" class="cart-close-btn" id="cartCloseBtn" aria-label="Close Bag">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+  <div class="cart-shipping-meter">
+    <div class="shipping-bar-track">
+      <div class="shipping-bar-fill" id="shippingBarFill" style="width: 0%;"></div>
+    </div>
+    <span class="shipping-meter-text" id="shippingMeterText">
+      Add <strong>Rs. 2,500</strong> more to get <strong>FREE Delivery</strong>!
+    </span>
+  </div>
+  <div class="cart-items-list" id="cartItemsList"></div>
+  <div class="cart-footer">
+    <div class="cart-subtotal-row">
+      <span>Subtotal (Direct Factory Rates):</span>
+      <span id="cartSubtotalVal" style="color: var(--color-primary-dark);">Rs. 0</span>
+    </div>
+    <button type="button" class="btn btn-primary cart-checkout-btn btn-lg" id="cartCheckoutBtn">
+      <i class="fas fa-lock"></i> Proceed to Order (COD)
+    </button>
+  </div>
+</aside>
+
+<!-- Checkout Modal -->
+<div class="modal-overlay" id="checkoutModal">
+  <div class="modal-card checkout-modal-card">
+    <button type="button" class="modal-close" id="closeCheckoutModal" aria-label="Close Checkout">
+      <i class="fas fa-times"></i>
+    </button>
+    <div class="checkout-modal-header">
+      <span class="checkout-modal-badge"><i class="fas fa-shield-alt"></i> Safe & Verified</span>
+      <h3 class="checkout-modal-title">Cash on Delivery Order</h3>
+      <p class="checkout-modal-desc">Parcel khol kar pehle tasalli se check karein, phir payment karein.</p>
+    </div>
+    <div class="form-error" id="checkoutError"></div>
+    <form id="checkoutForm">
+      <div class="form-group">
+        <label for="custName" class="form-label">Aapka Mukammal Naam <span style="color:red;">*</span></label>
+        <input type="text" id="custName" class="form-input" placeholder="e.g. Ayesha Khan" required />
+      </div>
+      <div class="form-group">
+        <label for="custPhone" class="form-label">WhatsApp / Phone Number <span style="color:red;">*</span></label>
+        <input type="tel" id="custPhone" class="form-input" placeholder="0300 1234567" required />
+      </div>
+      <div class="form-group">
+        <label for="custCity" class="form-label">Shehar (City) <span style="color:red;">*</span></label>
+        <input type="text" id="custCity" class="form-input" placeholder="e.g. Karachi, Lahore, Islamabad" required />
+      </div>
+      <div class="form-group">
+        <label for="custAddress" class="form-label">Mukammal Delivery Address <span style="color:red;">*</span></label>
+        <textarea id="custAddress" class="form-input" rows="2" placeholder="House/Flat No, Street, Area..." required></textarea>
+      </div>
+      <div class="form-group">
+        <label for="custNote" class="form-label">Delivery Note (Ikhtiyari)</label>
+        <input type="text" id="custNote" class="form-input" placeholder="e.g. Call before delivery" />
+      </div>
+      <div class="checkout-summary-box">
+        <div class="summary-line"><span>Subtotal:</span><strong id="checkoutSubtotal">Rs. 0</strong></div>
+        <div class="summary-line"><span>Delivery Charges:</span><strong id="checkoutShipping">Calculating...</strong></div>
+        <div class="summary-line grand-total"><span>Total Payable:</span><span id="checkoutFinalTotal">Rs. 0</span></div>
+      </div>
+      <button type="submit" class="btn btn-whatsapp btn-lg" style="width: 100%; justify-content: center; margin-top: 16px;">
+        <i class="fab fa-whatsapp"></i> Confirm & Send Order on WhatsApp
+      </button>
+    </form>
+  </div>
+</div>

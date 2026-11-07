@@ -22,7 +22,8 @@
   <link rel="stylesheet" href="css/design-system.css" />
   <link rel="stylesheet" href="css/style.css" />
 
-  <!-- Tracker Engine -->
+  <!-- Configuration & Tracker Engine -->
+  <script src="js/config.js"></script>
   <script src="js/tracker.js"></script>
 </head>
 <body>
@@ -52,10 +53,17 @@
           <i class="fas fa-crown"></i> VIP Club
         </button>
 
-        <button type="button" class="cart-toggle-btn" aria-label="View Shopping Bag" title="Shopping Bag">
-          <i class="fas fa-shopping-bag"></i>
-          <span class="cart-badge" style="display: none;">0</span>
-        </button>
+        <div class="header-social-actions">
+          <a href="https://wa.me/923071771829" target="_blank" class="header-social-btn wa-header-btn" title="Chat on WhatsApp" aria-label="WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+          </a>
+          <a href="https://instagram.com/hijabulmunazzah.pk" target="_blank" class="header-social-btn ig-header-btn" title="Instagram DM" aria-label="Instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="https://www.tiktok.com/@hijabulmunazzah" target="_blank" class="header-social-btn tt-header-btn" title="TikTok" aria-label="TikTok">
+            <i class="fab fa-tiktok"></i>
+          </a>
+        </div>
 
         <button class="menu-toggle" aria-label="Toggle navigation menu">
           <span></span>
@@ -197,16 +205,18 @@
             </span>
           </div>
 
-          <!-- Action Buttons -->
-          <div class="detail-cta-row">
-            <button type="button" class="btn btn-primary btn-lg" id="detailAddToCartBtn">
-              <i class="fas fa-shopping-bag"></i> Add to Bag
-            </button>
-            <button type="button" class="btn btn-gold btn-lg" id="detailDirectCheckoutBtn">
-              <i class="fas fa-truck"></i> Cash on Delivery
-            </button>
-            <a href="#" id="detailWhatsAppBuyBtn" target="_blank" class="btn btn-whatsapp btn-lg btn-detail-wa">
-              <i class="fab fa-whatsapp"></i> Buy via WhatsApp (Instant Order)
+          <!-- Action Buttons (Social Hub Direct Ordering) -->
+          <div class="detail-cta-row" style="display: flex; flex-direction: column; gap: 10px;">
+            <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 10px;">
+              <a href="#" id="detailWhatsAppBuyBtn" target="_blank" class="btn btn-whatsapp btn-lg" style="justify-content: center;">
+                <i class="fab fa-whatsapp"></i> WhatsApp Order Desk
+              </a>
+              <a href="#" id="detailInstagramBuyBtn" target="_blank" class="btn btn-primary btn-lg" style="justify-content: center; background: linear-gradient(45deg, #f09433, #dc2743, #bc1888); border: none;">
+                <i class="fab fa-instagram"></i> Instagram DM
+              </a>
+            </div>
+            <a href="https://www.tiktok.com/@hijabulmunazzah" id="detailTikTokBtn" target="_blank" class="btn btn-outline" style="justify-content: center; font-size: 0.85rem; padding: 8px 14px;">
+              <i class="fab fa-tiktok"></i> TikTok pe styling video dekhein
             </a>
           </div>
 
@@ -263,9 +273,20 @@
               <span class="logo-tagline" style="color: var(--color-gold-light);">Pure Modesty & Wholesale</span>
             </div>
           </a>
-          <p>
-            Direct manufacturer & wholesale distributor of premium hijabs, stoles, abayas, and modest wear. Guaranteed factory rates with open parcel inspection nationwide in Pakistan.
-          </p>
+          <div class="footer-social-bar">
+            <a href="https://wa.me/923071771829" target="_blank" class="footer-social-icon" title="Chat on WhatsApp" aria-label="WhatsApp">
+              <i class="fab fa-whatsapp"></i>
+            </a>
+            <a href="https://instagram.com/hijabulmunazzah.pk" target="_blank" class="footer-social-icon" title="Follow on Instagram" aria-label="Instagram">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://www.tiktok.com/@hijabulmunazzah" target="_blank" class="footer-social-icon" title="Follow on TikTok" aria-label="TikTok">
+              <i class="fab fa-tiktok"></i>
+            </a>
+            <a href="https://facebook.com/hijabulmunazzah" target="_blank" class="footer-social-icon" title="Facebook Page" aria-label="Facebook">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+          </div>
         </div>
 
         <div class="footer-col">
@@ -328,86 +349,6 @@
       </div>
     </div>
   </footer>
-
-  <!-- ============ CART DRAWER & OVERLAY ============ -->
-  <div class="cart-overlay" id="cartOverlay"></div>
-  <aside class="cart-drawer" id="cartDrawer" aria-label="Shopping Cart">
-    <div class="cart-header">
-      <h3><i class="fas fa-shopping-bag" style="color: var(--color-primary);"></i> Your Shopping Bag</h3>
-      <button type="button" class="cart-close-btn" id="cartCloseBtn" aria-label="Close Bag">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
-
-    <div class="cart-shipping-meter">
-      <div id="shippingMeterText">Add items to get <strong>FREE Delivery</strong>!</div>
-      <div class="shipping-bar-bg">
-        <div class="shipping-bar-fill" id="shippingBarFill"></div>
-      </div>
-    </div>
-
-    <div class="cart-items-list" id="cartItemsList"></div>
-
-    <div class="cart-footer">
-      <div class="cart-subtotal-row">
-        <span>Subtotal:</span>
-        <span id="cartSubtotalVal" style="color: var(--color-primary-dark);">Rs. 0</span>
-      </div>
-      <button type="button" class="btn btn-primary cart-checkout-btn btn-lg" id="cartCheckoutBtn">
-        <i class="fas fa-lock"></i> Proceed to COD Checkout
-      </button>
-    </div>
-  </aside>
-
-  <!-- ============ CHECKOUT MODAL ============ -->
-  <div class="modal-overlay" id="checkoutModal">
-    <div class="modal-card">
-      <button type="button" class="modal-close-btn" id="closeCheckoutModal"><i class="fas fa-times"></i></button>
-      <span class="modal-badge-pill"><i class="fas fa-truck"></i> Cash on Delivery</span>
-      <h3 class="modal-title">Complete Your Order</h3>
-      <p class="modal-desc">Apni delivery details darj karein. Parcel open karke check karne ki mukammal ijazat hai.</p>
-      <div class="form-error" id="checkoutError"></div>
-      <form id="checkoutForm">
-        <div class="form-group">
-          <label class="form-label">Mukammal Naam (Full Name) *</label>
-          <input type="text" id="custName" class="form-control" placeholder="e.g. Fatima Khan" required />
-        </div>
-        <div class="form-group">
-          <label class="form-label">WhatsApp / Mobile Number *</label>
-          <input type="tel" id="custPhone" class="form-control" placeholder="0307 1771829" maxlength="11" required />
-        </div>
-        <div class="form-group">
-          <label class="form-label">Shehar (City) *</label>
-          <input type="text" id="custCity" class="form-control" placeholder="e.g. Karachi / Lahore / Islamabad" required />
-        </div>
-        <div class="form-group">
-          <label class="form-label">Mukammal Delivery Address *</label>
-          <textarea id="custAddress" class="form-control" rows="2" placeholder="House number, street, area" required></textarea>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Order Note (Optional)</label>
-          <input type="text" id="custNote" class="form-control" placeholder="e.g. Call before delivery" />
-        </div>
-        <div style="background: var(--color-bg-alt); padding: 14px 18px; border-radius: var(--radius-sm); margin: 18px 0; font-size: 0.9rem;">
-          <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
-            <span>Subtotal:</span>
-            <strong id="checkoutSubtotal">Rs. 0</strong>
-          </div>
-          <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
-            <span>Delivery Charges:</span>
-            <strong id="checkoutShipping" style="color: #2E7D32;">Calculating...</strong>
-          </div>
-          <div style="display: flex; justify-content: space-between; font-size: 1.05rem; font-weight: 700; border-top: 1px solid var(--color-border); padding-top: 8px;">
-            <span>Payable on Delivery:</span>
-            <span id="checkoutFinalTotal" style="color: var(--color-primary-dark);">Rs. 0</span>
-          </div>
-        </div>
-        <button type="submit" class="btn btn-whatsapp btn-lg" style="width: 100%;">
-          <i class="fab fa-whatsapp"></i> Confirm Order on WhatsApp
-        </button>
-      </form>
-    </div>
-  </div>
 
   <!-- ============ VIP MODAL ============ -->
   <div class="modal-overlay" id="rememberModal">
@@ -649,10 +590,27 @@
     function updateWhatsAppLink() {
       const p = PRODUCT_CATALOG[currentProdKey] || PRODUCT_CATALOG['chiffon-mocha'];
       const total = p.price * currentQty;
-      const msg = `*🌸 NAYI ORDER INQUIRY — HIJAB UL MUNNAZAH 🌸*\n\nProduct: ${p.title}\nSelected Shade: ${selectedColor}\nQuantity: ${currentQty}\nPrice: Rs. ${total.toLocaleString()}\n\nBaraye meharbani Cash on Delivery confirmation process karein. Shukriya!`;
+      const cfg = window.HUM_CONFIG || {};
+      const waNumber = cfg.whatsappNumber || '923071771829';
+      const igUser = cfg.instagramUsername || 'hijabulmunazzah.pk';
+
+      let msg = `*🌸 NAYI ORDER INQUIRY — HIJAB UL MUNNAZAH 🌸*\n\nProduct: ${p.title}\nSelected Shade: ${selectedColor}\nQuantity: ${currentQty}\nPrice: Rs. ${total.toLocaleString()}`;
+      try {
+        if (window.HUMTracker && typeof window.HUMTracker.getBrowsingContextText === 'function') {
+          const ctx = window.HUMTracker.getBrowsingContextText();
+          if (ctx) msg += `\n\n${ctx}`;
+        }
+      } catch (e) {}
+      msg += `\n\nBaraye meharbani Cash on Delivery confirmation process karein. Shukriya!`;
+
       const waBtn = document.querySelector('#detailWhatsAppBuyBtn');
       if (waBtn) {
-        waBtn.href = `https://wa.me/923071771829?text=${encodeURIComponent(msg)}`;
+        waBtn.href = `https://wa.me/${waNumber}?text=${encodeURIComponent(msg)}`;
+      }
+
+      const igBtn = document.querySelector('#detailInstagramBuyBtn');
+      if (igBtn) {
+        igBtn.href = `https://ig.me/m/${igUser}?ref=${encodeURIComponent(`utm_source=website&utm_medium=button&utm_campaign=product_detail&item=${currentProdKey}&shade=${selectedColor}&qty=${currentQty}`)}`;
       }
     }
 
@@ -669,34 +627,6 @@
       currentQty++;
       document.querySelector('#detailQtyInput').value = currentQty;
       updateWhatsAppLink();
-    });
-
-    // Add to cart
-    document.querySelector('#detailAddToCartBtn').addEventListener('click', () => {
-      const p = PRODUCT_CATALOG[currentProdKey] || PRODUCT_CATALOG['chiffon-mocha'];
-      window.addToCart({
-        id: currentProdKey,
-        title: p.title,
-        variant: selectedColor,
-        price: p.price,
-        image: p.image,
-        qty: currentQty
-      });
-    });
-
-    // Direct checkout
-    document.querySelector('#detailDirectCheckoutBtn').addEventListener('click', () => {
-      const p = PRODUCT_CATALOG[currentProdKey] || PRODUCT_CATALOG['chiffon-mocha'];
-      window.addToCart({
-        id: currentProdKey,
-        title: p.title,
-        variant: selectedColor,
-        price: p.price,
-        image: p.image,
-        qty: currentQty
-      });
-      const openCheckoutBtn = document.querySelector('#cartCheckoutBtn');
-      if (openCheckoutBtn) openCheckoutBtn.click();
     });
 
     // Initialize from URL param

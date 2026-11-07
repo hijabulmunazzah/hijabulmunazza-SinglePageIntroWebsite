@@ -99,6 +99,10 @@
       if (journey.length === 0) return 'Direct Visit';
       return journey.map(j => `${j.page} (~${j.dwellSeconds || 5}s)`).join(' ➔ ');
     },
+    getBrowsingContextText: function () {
+      const dossier = this.getDossier();
+      return dossier ? `Browsing Context: ${dossier}` : '';
+    },
     getWhatsAppText: function (customer) {
       const dossier = this.getDossier();
       let text = `Assalam o Alaikum Hijab ul Munnazah!\n`;

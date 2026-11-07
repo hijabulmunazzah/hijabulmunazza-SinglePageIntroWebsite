@@ -23,6 +23,7 @@
   <link rel="stylesheet" href="css/style.css" />
 
   <!-- Tracker Engine -->
+  <script src="js/config.js"></script>
   <script src="js/tracker.js"></script>
 </head>
 <body>
@@ -52,10 +53,17 @@
           <i class="fas fa-crown"></i> VIP Club
         </button>
 
-        <button type="button" class="cart-toggle-btn" aria-label="View Shopping Bag" title="Shopping Bag">
-          <i class="fas fa-shopping-bag"></i>
-          <span class="cart-badge" style="display: none;">0</span>
-        </button>
+        <div class="header-social-actions">
+          <a href="https://wa.me/923071771829" target="_blank" class="header-social-btn wa-header-btn" title="Chat on WhatsApp" aria-label="WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+          </a>
+          <a href="https://instagram.com/hijabulmunazzah.pk" target="_blank" class="header-social-btn ig-header-btn" title="Instagram DM" aria-label="Instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="https://www.tiktok.com/@hijabulmunazzah" target="_blank" class="header-social-btn tt-header-btn" title="TikTok" aria-label="TikTok">
+            <i class="fab fa-tiktok"></i>
+          </a>
+        </div>
 
         <button class="menu-toggle" aria-label="Toggle navigation menu">
           <span></span>
@@ -203,21 +211,7 @@
   </footer>
 
   <!-- ============ CART DRAWER & OVERLAY ============ -->
-  <div class="cart-overlay" id="cartOverlay"></div>
-  <aside class="cart-drawer" id="cartDrawer">
-    <div class="cart-header">
-      <h3><i class="fas fa-shopping-bag" style="color: var(--color-primary);"></i> Your Shopping Bag</h3>
-      <button type="button" class="cart-close-btn" id="cartCloseBtn"><i class="fas fa-times"></i></button>
-    </div>
-    <div class="cart-items-list" id="cartItemsList"></div>
-    <div class="cart-footer">
-      <div class="cart-subtotal-row">
-        <span>Subtotal:</span>
-        <span id="cartSubtotalVal">Rs. 0</span>
-      </div>
-      <button type="button" class="btn btn-primary cart-checkout-btn btn-lg" id="cartCheckoutBtn">Proceed to COD</button>
-    </div>
-  </aside>
+  
 
   <!-- ============ WHATSAPP FLOATING BUTTON ============ -->
   <a href="https://wa.me/923071771829?text=Assalam%20o%20Alaikum%20Hijab%20ul%20Munnazah!" target="_blank" class="whatsapp-float">
