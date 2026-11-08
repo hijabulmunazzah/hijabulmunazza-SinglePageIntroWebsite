@@ -17,27 +17,31 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ---------- Mobile Menu Toggle ----------
-  const menuToggle = document.querySelector('.menu-toggle');
-  const nav = document.querySelector('.nav');
+  const menuToggle = document.querySelector('#mobileMenuBtn, .hamburger-btn, .menu-toggle');
+  const nav = document.querySelector('#mobileNavOverlay, .nav');
 
   if (menuToggle && nav) {
-    menuToggle.addEventListener('click', () => {
-      menuToggle.classList.toggle('active');
+    menuToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = menuToggle.classList.toggle('active');
+      nav.classList.toggle('open');
       nav.classList.toggle('active');
-      document.body.style.overflow = nav.classList.contains('active') ? 'hidden' : '';
+      document.body.style.overflow = isOpen ? 'hidden' : '';
     });
 
-    nav.querySelectorAll('.nav-link').forEach(link => {
+    nav.querySelectorAll('.mobile-nav-link, .nav-link').forEach(link => {
       link.addEventListener('click', () => {
         menuToggle.classList.remove('active');
+        nav.classList.remove('open');
         nav.classList.remove('active');
         document.body.style.overflow = '';
       });
     });
 
     document.addEventListener('click', (e) => {
-      if (nav.classList.contains('active') && !nav.contains(e.target) && !menuToggle.contains(e.target)) {
+      if ((nav.classList.contains('open') || nav.classList.contains('active')) && !nav.contains(e.target) && !menuToggle.contains(e.target)) {
         menuToggle.classList.remove('active');
+        nav.classList.remove('open');
         nav.classList.remove('active');
         document.body.style.overflow = '';
       }

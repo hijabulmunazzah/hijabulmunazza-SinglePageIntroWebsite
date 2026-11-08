@@ -13,10 +13,13 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Lenis Smooth Scroll -->
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.min.js"></script>
 
   <!-- Styles -->
   <link rel="stylesheet" href="css/design-system.css" />
@@ -28,44 +31,56 @@
 </head>
 <body>
 
-  <!-- ============ HEADER ============ -->
+  <!-- ============ ANNOUNCEMENT BAR (Static, No Ticker) ============ -->
+  <div class="announcement-bar">
+    <div class="container">
+      <p>
+        <span>Free delivery on orders over Rs. 2,500</span>
+        <span class="announcement-sep">·</span>
+        <span>Open parcel check before payment</span>
+        <span class="announcement-sep">·</span>
+        <span>100% Cash on Delivery</span>
+      </p>
+    </div>
+  </div>
+
+  <!-- ============ STICKY HEADER (72px) ============ -->
   <header class="header">
     <div class="container">
-      <a href="index.html" class="logo">
-        <img src="images/logo.png" alt="Hijab ul Munnazah Logo" class="logo-img" />
-        <div class="logo-text">
-          <span class="logo-brand">HIJAB UL MUNNAZAH</span>
-          <span class="logo-tagline">Manufacturer & Wholesale • Est. 2026</span>
-        </div>
+      <!-- Logo Left -->
+      <a href="#hero" class="logo">
+        <img src="images/logo.png" alt="Hijab ul Munnazah Emblem" class="logo-img" />
+        <span class="logo-brand">HIJAB UL MUNNAZAH</span>
       </a>
 
-      <nav class="nav">
-        <a href="index.html" class="nav-link active">Home</a>
-        <a href="collection.html" class="nav-link">Collection</a>
-        <a href="#fabric-guide" class="nav-link">Fabrics</a>
+      <!-- Center Desktop Nav (Anchor Links) -->
+      <nav class="nav-desktop">
+        <a href="#hero" class="nav-link active">Home</a>
+        <a href="#collection" class="nav-link">Collection</a>
         <a href="#wholesale" class="nav-link">Wholesale</a>
-        <a href="faq.html" class="nav-link">FAQ</a>
-        <a href="contact.html" class="nav-link">Contact</a>
+        <a href="#contact" class="nav-link">Contact</a>
       </nav>
 
+      <!-- Right Actions: Currency Pill + WhatsApp Icon + Hamburger -->
       <div class="header-actions">
-        <button type="button" class="vip-btn-header" id="openVipNavBtn" title="VIP Member Access">
-          <i class="fas fa-crown"></i> VIP Club
+        <!-- Currency Pill Placeholder -->
+        <button type="button" class="currency-pill" id="currencyPillBtn" aria-label="Choose Display Currency">
+          <span>🇵🇰</span>
+          <span>PK · PKR</span>
+          <svg width="10" height="6" viewBox="0 0 10 6" fill="none">
+            <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
         </button>
 
-        <div class="header-social-actions">
-          <a href="https://wa.me/923071771829" target="_blank" class="header-social-btn wa-header-btn" title="Chat on WhatsApp" aria-label="WhatsApp">
-            <i class="fab fa-whatsapp"></i>
-          </a>
-          <a href="https://instagram.com/hijabulmunazzah.pk" target="_blank" class="header-social-btn ig-header-btn" title="Instagram DM" aria-label="Instagram">
-            <i class="fab fa-instagram"></i>
-          </a>
-          <a href="https://www.tiktok.com/@hijabulmunazzah" target="_blank" class="header-social-btn tt-header-btn" title="TikTok" aria-label="TikTok">
-            <i class="fab fa-tiktok"></i>
-          </a>
-        </div>
+        <!-- Direct WhatsApp Action Button -->
+        <a href="https://wa.me/923071771829" target="_blank" class="header-wa-btn" aria-label="WhatsApp Order Desk" title="Chat on WhatsApp">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2ZM12.04 20.16C10.56 20.16 9.11 19.76 7.85 19.01L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 14.99 3.8 13.47 3.8 11.91C3.8 7.37 7.5 3.67 12.05 3.67C14.25 3.67 16.32 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.16 12.04 20.16ZM16.56 14.39C16.31 14.26 15.09 13.66 14.86 13.58C14.64 13.5 14.47 13.46 14.31 13.71C14.15 13.95 13.68 14.51 13.53 14.67C13.39 14.83 13.25 14.85 13 14.73C12.75 14.6 11.95 14.34 11 13.5C10.26 12.84 9.76 12.03 9.61 11.78C9.47 11.54 9.6 11.4 9.72 11.28C9.83 11.17 9.97 11 10.09 10.86C10.22 10.72 10.26 10.62 10.34 10.45C10.42 10.29 10.38 10.15 10.32 10.02C10.26 9.9 9.77 8.7 9.56 8.21C9.36 7.73 9.16 7.79 9.01 7.78C8.87 7.77 8.71 7.77 8.54 7.77C8.38 7.77 8.11 7.83 7.89 8.07C7.66 8.32 7.03 8.91 7.03 10.11C7.03 11.31 7.9 12.47 8.02 12.63C8.15 12.79 9.74 15.24 12.18 16.29C12.76 16.54 13.21 16.69 13.57 16.8C14.15 16.99 14.68 16.96 15.1 16.9C15.57 16.83 16.54 16.31 16.74 15.74C16.95 15.17 16.95 14.68 16.89 14.58C16.82 14.47 16.68 14.41 16.56 14.39Z"/>
+          </svg>
+        </a>
 
-        <button class="menu-toggle" aria-label="Toggle navigation menu">
+        <!-- Mobile Hamburger Button -->
+        <button type="button" class="hamburger-btn" id="mobileMenuBtn" aria-label="Toggle Navigation Menu">
           <span></span>
           <span></span>
           <span></span>
@@ -74,153 +89,113 @@
     </div>
   </header>
 
-  <!-- ============ ANNOUNCEMENT TICKER LINE ============ -->
-  <div class="alert-bar" id="openRememberModal" role="button" tabindex="0" title="Click for VIP Member Rs. 500 Discount Voucher">
-    <div class="alert-ticker">
-      <div class="alert-ticker-track">
-        <div class="alert-ticker-item">
-          <span class="alert-pulse"></span>
-          <span class="alert-badge-pill">VIP PERK</span>
-          <span>Click to claim your <strong>Rs. 500 Discount Voucher</strong></span>
-          <span class="alert-sep">✦</span>
-          <span>Direct Factory & Wholesale Rates (20–40% Below Retail)</span>
-          <span class="alert-sep">✦</span>
-          <span>Open Parcel Inspection (Check before paying COD)</span>
-          <span class="alert-sep">✦</span>
-          <span>Free Nationwide Delivery on Orders over Rs. 2,500</span>
-          <span class="alert-sep">✦</span>
-          <span>Premium Korean Malaki Silk, Turkish Modal & Georgette Chiffon</span>
-          <i class="fas fa-arrow-right alert-arrow"></i>
-        </div>
-        <div class="alert-ticker-item" aria-hidden="true">
-          <span class="alert-pulse"></span>
-          <span class="alert-badge-pill">VIP PERK</span>
-          <span>Click to claim your <strong>Rs. 500 Discount Voucher</strong></span>
-          <span class="alert-sep">✦</span>
-          <span>Direct Factory & Wholesale Rates (20–40% Below Retail)</span>
-          <span class="alert-sep">✦</span>
-          <span>Open Parcel Inspection (Check before paying COD)</span>
-          <span class="alert-sep">✦</span>
-          <span>Free Nationwide Delivery on Orders over Rs. 2,500</span>
-          <span class="alert-sep">✦</span>
-          <span>Premium Korean Malaki Silk, Turkish Modal & Georgette Chiffon</span>
-          <i class="fas fa-arrow-right alert-arrow"></i>
-        </div>
-      </div>
+  <!-- Full-screen Mobile Navigation Overlay -->
+  <div class="mobile-nav-overlay" id="mobileNavOverlay">
+    <nav class="mobile-nav-links">
+      <a href="#hero" class="mobile-nav-link">Home</a>
+      <a href="#collection" class="mobile-nav-link">Collection</a>
+      <a href="#wholesale" class="mobile-nav-link">Wholesale</a>
+      <a href="#contact" class="mobile-nav-link">Contact</a>
+    </nav>
+    <div class="mobile-nav-footer">
+      <a href="https://wa.me/923071771829" target="_blank" class="mobile-nav-wa-cta">
+        <span>Chat on WhatsApp (+92 307 1771829)</span>
+      </a>
+      <p style="font-size: 13px; color: #8E877E; text-align: center; margin: 0;">
+        100% Cash on Delivery · Open Parcel Inspection
+      </p>
     </div>
   </div>
 
-  <!-- ============ HERO SECTION ============ -->
-  <section class="hero">
-    <div class="hero-bg-accent"></div>
+  <!-- ============ HERO SECTION (trueawrah style) ============ -->
+  <section class="hero" id="hero">
     <div class="container">
-      <div class="hero-content">
-        <div class="hero-pill">
-          <i class="fas fa-certificate"></i> Direct Manufacturer & Wholesale Abaya Store
-        </div>
-        <h1 class="hero-title">
-          Direct Factory-to-Customer <span>French Jilbabs & Luxury Abayas.</span>
-        </h1>
-        <p class="hero-lead">
-          Karkhane se seedha aapke ghar tak — pure Korean fabric aur authentic modest fall ke sath. Wholesale aur single piece order karein WhatsApp ya Instagram DM par, aur rider ke samne tasalli se parcel open check karke payment karein.
-        </p>
-        <div class="hero-actions">
-          <a href="https://wa.me/923071771829?text=Assalam%20o%20Alaikum%20Hijab%20ul%20Munnazah!%20Mujhe%20apki%20abaya%20aur%20hijab%20collection%20ke%20wholesale%20rates%20chahiye." target="_blank" class="btn btn-whatsapp btn-lg">
-            <i class="fab fa-whatsapp"></i> WhatsApp Order Desk
-          </a>
-          <a href="https://ig.me/m/hijabulmunazzah.pk?ref=utm_source%3Dwebsite%26utm_medium%3Dbutton%26utm_campaign%3Dhero" target="_blank" class="btn btn-primary btn-lg" style="background: linear-gradient(45deg, #f09433, #dc2743, #bc1888); border: none;">
-            <i class="fab fa-instagram"></i> Instagram pe DM Karein
-          </a>
-        </div>
+      <span class="hero-pill">
+        Direct Factory-to-Customer • 100% Pure Korean Crepe
+      </span>
+      <h1 class="hero-title">
+        Pure Modest Grace. <span>Direct From The Factory.</span>
+      </h1>
+      <p class="hero-lead">
+        Karkhane se seedha aapke ghar tak — authentic Korean fabric drape aur tasalli-bakhsh open parcel delivery. Order single piece or wholesale with confidence.
+      </p>
+      <a href="#collection" class="hero-cta-btn">
+        <span>Collection Dekhein</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
 
-        <div class="hero-features-list">
-          <div class="hero-feat-item">
-            <i class="fas fa-box-open hero-feat-icon"></i>
-            <div class="hero-feat-text">
-              <strong>Open Parcel COD</strong>
-              <span>Tasalli se check karein</span>
-            </div>
-          </div>
-          <div class="hero-feat-item">
-            <i class="fas fa-tags hero-feat-icon"></i>
-            <div class="hero-feat-text">
-              <strong>Wholesale Rates</strong>
-              <span>Direct factory pricing</span>
-            </div>
-          </div>
-          <div class="hero-feat-item">
-            <i class="fas fa-shipping-fast hero-feat-icon"></i>
-            <div class="hero-feat-text">
-              <strong>Fast Nationwide</strong>
-              <span>Free on Rs. 2,500+</span>
-            </div>
-          </div>
+      <!-- 2 Hero Product Photos Side-by-Side (Navy & Mocha) -->
+      <div class="hero-gallery">
+        <div class="hero-gallery-card">
+          <img src="images/products/jilbab-navy-1.jpg" alt="Signature French Jilbab — Midnight Navy" />
+          <span class="hero-gallery-label">Midnight Navy Jilbab</span>
         </div>
-      </div>
-
-      <div class="hero-visual">
-        <div class="hero-card-stack">
-          <img src="images/hero-banner.jpg" alt="Hijab ul Munnazah Premium Collection" class="hero-main-img" onerror="this.src='images/brand-story.jpg'" />
-          <div class="hero-badge-overlay">
-            <div class="hero-badge-icon">
-              <i class="fas fa-gem"></i>
-            </div>
-            <div>
-              <strong>100% Breathable & Non-Slip</strong>
-              <span>Korean & Turkish Fabrics</span>
-            </div>
-          </div>
+        <div class="hero-gallery-card">
+          <img src="images/products/jilbab-mocha-1.jpg" alt="Overhead French Jilbab — Chocolate Mocha" />
+          <span class="hero-gallery-label">Chocolate Mocha Jilbab</span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ============ TRUST STRIP ============ -->
-  <section class="trust-strip">
+  <!-- ============ FEATURE STRIP (4 Clean Cards) ============ -->
+  <section class="features-section">
     <div class="container">
-      <div class="trust-grid">
-        <div class="trust-item">
-          <div class="trust-icon-box">
-            <i class="fas fa-hand-holding-usd"></i>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon-circle">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/>
+              <path d="m3.3 7 8.7 5 8.7-5"/>
+              <path d="M12 22V12"/>
+            </svg>
           </div>
-          <div class="trust-info">
-            <h4>Factory Direct Rates</h4>
-            <p>Save 20% to 40% compared to shopping mall prices</p>
-          </div>
+          <h3 class="feature-title">Open Parcel COD</h3>
+          <p class="feature-desc">Rider ke samne tasalli se parcel check karke payment karein.</p>
         </div>
-        <div class="trust-item">
-          <div class="trust-icon-box">
-            <i class="fas fa-shield-alt"></i>
+
+        <div class="feature-card">
+          <div class="feature-icon-circle">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+              <line x1="7" y1="7" x2="7.01" y2="7"/>
+            </svg>
           </div>
-          <div class="trust-info">
-            <h4>Check Parcel First</h4>
-            <p>Open parcel inspection before payment at your doorstep</p>
-          </div>
+          <h3 class="feature-title">Factory Direct Rates</h3>
+          <p class="feature-desc">Baghair kisi middleman ke 20% se 40% retail mall bachat.</p>
         </div>
-        <div class="trust-item">
-          <div class="trust-icon-box">
-            <i class="fas fa-feather-alt"></i>
+
+        <div class="feature-card">
+          <div class="feature-icon-circle">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="23 4 23 10 17 10"/>
+              <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+            </svg>
           </div>
-          <div class="trust-info">
-            <h4>Lightweight & Non-Slip</h4>
-            <p>All-day breathable comfort tailored for Pakistani weather</p>
-          </div>
+          <h3 class="feature-title">7-Day Easy Exchange</h3>
+          <p class="feature-desc">Fabric fall ya color pasand na aane par easy return & exchange.</p>
         </div>
-        <div class="trust-item">
-          <div class="trust-icon-box">
-            <i class="fas fa-sync-alt"></i>
+
+        <div class="feature-card">
+          <div class="feature-icon-circle">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="1" y="3" width="15" height="13"/>
+              <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/>
+              <circle cx="5.5" cy="18.5" r="2.5"/>
+              <circle cx="18.5" cy="18.5" r="2.5"/>
+            </svg>
           </div>
-          <div class="trust-info">
-            <h4>7-Day Easy Exchange</h4>
-            <p>No questions asked color or fabric exchange guarantee</p>
-          </div>
+          <h3 class="feature-title">Nationwide Delivery</h3>
+          <p class="feature-desc">Poore Pakistan mein tez delivery, Rs. 2,500 se upar bilkul free.</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ============ FEATURED PRODUCTS GRID ============ -->
-  <section class="products-section" id="featured-collection">
+  <section class="products-section" id="collection">
     <div class="container">
       <div class="text-center">
         <span class="section-subtitle">Direct Factory-to-Customer &bull; Manufacturer Pricing</span>
@@ -880,9 +855,8 @@
         </div>
       </div>
 
-      <!-- Big Brand Watermark across Footer (TaxiDex Style) -->
-      <div class="footer-watermark" aria-hidden="true">
-        Hijab-ul-Munnazah
+      <div class="rates-attribution">
+        Display rates by ExchangeRate-API
       </div>
     </div>
   </footer>
@@ -966,13 +940,48 @@
     </div>
   </div>
 
-  <!-- ============ WHATSAPP FLOATING BUTTON ============ -->
-  <a href="https://wa.me/923071771829?text=Assalam%20o%20Alaikum%20Hijab%20ul%20Munnazah!%20Mujhe%20collection%20dekhni%20hai." target="_blank" class="whatsapp-float" aria-label="Chat on WhatsApp" title="Chat on WhatsApp (+92 307 1771829)">
-    <i class="fab fa-whatsapp"></i>
+  <!-- ============ FLOATING WHATSAPP PILL (Clean trueawrah Style) ============ -->
+  <a href="https://wa.me/923071771829?text=Assalam%20o%20Alaikum%20Hijab%20ul%20Munnazah!" target="_blank" class="whatsapp-floating-pill" aria-label="WhatsApp Order Desk" title="Chat on WhatsApp">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2ZM12.04 20.16C10.56 20.16 9.11 19.76 7.85 19.01L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 14.99 3.8 13.47 3.8 11.91C3.8 7.37 7.5 3.67 12.05 3.67C14.25 3.67 16.32 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.16 12.04 20.16ZM16.56 14.39C16.31 14.26 15.09 13.66 14.86 13.58C14.64 13.5 14.47 13.46 14.31 13.71C14.15 13.95 13.68 14.51 13.53 14.67C13.39 14.83 13.25 14.85 13 14.73C12.75 14.6 11.95 14.34 11 13.5C10.26 12.84 9.76 12.03 9.61 11.78C9.47 11.54 9.6 11.4 9.72 11.28C9.83 11.17 9.97 11 10.09 10.86C10.22 10.72 10.26 10.62 10.34 10.45C10.42 10.29 10.38 10.15 10.32 10.02C10.26 9.9 9.77 8.7 9.56 8.21C9.36 7.73 9.16 7.79 9.01 7.78C8.87 7.77 8.71 7.77 8.54 7.77C8.38 7.77 8.11 7.83 7.89 8.07C7.66 8.32 7.03 8.91 7.03 10.11C7.03 11.31 7.9 12.47 8.02 12.63C8.15 12.79 9.74 15.24 12.18 16.29C12.76 16.54 13.21 16.69 13.57 16.8C14.15 16.99 14.68 16.96 15.1 16.9C15.57 16.83 16.54 16.31 16.74 15.74C16.95 15.17 16.95 14.68 16.89 14.58C16.82 14.47 16.68 14.41 16.56 14.39Z"/>
+    </svg>
+    <span>WhatsApp Order</span>
   </a>
 
   <!-- ============ SCRIPTS ============ -->
   <script src="js/main.js"></script>
-  <script src="js/chat-assistant.js"></script>
+
+  <!-- Lenis Smooth Inertia Scroll Init -->
+  <script>
+    (function () {
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && typeof Lenis !== 'undefined') {
+        const lenis = new Lenis({
+          lerp: 0.1,
+          smoothWheel: true,
+          wheelMultiplier: 0.9
+        });
+
+        function raf(time) {
+          lenis.raf(time);
+          requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // Smooth scroll for internal anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+          anchor.addEventListener('click', function (e) {
+            const targetId = this.getAttribute('href');
+            if (targetId && targetId.length > 1) {
+              const targetEl = document.querySelector(targetId);
+              if (targetEl) {
+                e.preventDefault();
+                lenis.scrollTo(targetEl, { offset: -76 });
+              }
+            }
+          });
+        });
+      }
+    })();
+  </script>
 </body>
 </html>

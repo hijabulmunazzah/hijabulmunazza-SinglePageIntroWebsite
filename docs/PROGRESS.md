@@ -281,3 +281,112 @@
   - Commit all changes to git and push to GitHub repository upon owner confirmation.
 - **What Owner Must Do Manually:**
   - Review product images and pricing on `http://localhost:3000/` and let us know if any shade names or wholesale discounts need custom tweaking.
+
+
+---
+
+## 2026-11-08 — Floating Chat Assistant & Mobile Bottom Sheet (TaxiDex Style)
+
+- **What Was Done:**
+  1. **TaxiDex-Inspired Floating Card & Pill:**
+     - Created modern Ochre Gold pill button (`[ 💬 Chat with us ]`) with a live pulsing green indicator docked in the bottom-right corner.
+     - Designed floating popup card matching TaxiDex aesthetic: brand emblem avatar, title (`Hijab ul Munnazah Assistant`), subtitle (`Answers in seconds — a person can join`), close `(x)` pill, and prompt copy (`Welcome back 👋 Want to pick up where you left off — pricing, switching, or a quick demo?`).
+  2. **Dual Action Buttons:**
+     - **Continue** (`#B88E52` Ochre Gold): One-click WhatsApp link with dynamic browsing context / current product inquiry.
+     - **Book a demo** (`#1F1915` Charcoal): Pre-filled WhatsApp link requesting live video demo, fabric drape, and shade inspection.
+  3. **Mobile Native Bottom Sheet (<640px):**
+     - Full-width slid-up bottom sheet with rounded top corners (`22px`), drag/grab handle bar, backdrop dimming overlay, and touch swipe-down dismiss gesture.
+     - Fully responsive with zero horizontal clipping on 375px screens.
+  4. **Universal Integration:**
+     - Cleanly replaced legacy circular green WhatsApp icon.
+     - Injected into all pages: `index.html`, `collection.html`, `product.html`, `faq.html`, and `contact.html`.
+- **Files Changed:**
+  - `hijabulmunazza-SinglePageIntroWebsite/css/style.css`
+  - `hijabulmunazza-SinglePageIntroWebsite/js/chat-assistant.js`
+  - `hijabulmunazza-SinglePageIntroWebsite/index.html`
+  - `hijabulmunazza-SinglePageIntroWebsite/collection.html`
+  - `hijabulmunazza-SinglePageIntroWebsite/product.html`
+  - `hijabulmunazza-SinglePageIntroWebsite/faq.html`
+  - `hijabulmunazza-SinglePageIntroWebsite/contact.html`
+  - `docs/PROGRESS.md`
+- **How to Test:**
+  - Desktop: Visit `http://localhost:3000/` — card floats in bottom-right above `Chat with us` pill button. Click `Continue` or `Book a demo` to test prefilled WhatsApp triggers.
+  - Mobile: Resize browser to <640px or open on mobile — bottom sheet slides up from bottom with grab handle, dim backdrop, and swipe-down dismiss.
+- **What is Left:**
+  - Push commit to GitHub remote upon owner confirmation.
+
+
+---
+
+## 2026-11-08 — Brand Watermark (TaxiDex Style), Removed 'Book a demo', and Assistant Update
+
+- **What Was Done:**
+  1. **TaxiDex-Style Big Brand Watermark (`Hijab-ul-Munnazah`):**
+     - Added giant typography watermark (`Hijab-ul-Munnazah`) across the bottom of the page/footer on all pages (`index.html`, `collection.html`, `product.html`, `faq.html`, `contact.html`, `privacy-policy.html`, `terms-and-conditions.html`), matching the user's reference screenshots.
+     - Added subtle background brand watermark inside the floating card and mobile bottom sheet.
+  2. **Removed 'Book a demo' Button:**
+     - Removed `Book a demo` button from the chat assistant bottom sheet & desktop card.
+     - `Continue` button is now full-width, styled in Ochre Gold (`#B88E52`).
+     - Prompt text updated to: *"Welcome back 👋 Want to pick up where you left off — pricing, shades, or custom sizing?"*
+  3. **Phone Number Change Preparation:**
+     - Centralized phone number getter to read dynamically from `window.HUM_CONFIG.whatsappNumber`.
+     - Awaiting user's input for the new WhatsApp number to update all templates and configs.
+- **Files Changed:**
+  - `hijabulmunazza-SinglePageIntroWebsite/js/chat-assistant.js`
+  - `hijabulmunazza-SinglePageIntroWebsite/css/style.css`
+  - `hijabulmunazza-SinglePageIntroWebsite/index.html`
+  - `hijabulmunazza-SinglePageIntroWebsite/collection.html`
+  - `hijabulmunazza-SinglePageIntroWebsite/product.html`
+  - `hijabulmunazza-SinglePageIntroWebsite/faq.html`
+  - `hijabulmunazza-SinglePageIntroWebsite/contact.html`
+  - `hijabulmunazza-SinglePageIntroWebsite/privacy-policy.html`
+  - `hijabulmunazza-SinglePageIntroWebsite/terms-and-conditions.html`
+  - `docs/PROGRESS.md`
+- **How to Test:**
+  - Open `http://localhost:3000/` and scroll to the footer: observe the giant watermark `Hijab-ul-Munnazah` spanning across the bottom.
+  - Check the floating assistant / mobile bottom sheet: observe title `Hijab-ul-Munnazah Assistant`, subtle watermark, and single full-width `Continue` button.
+- **What Owner Must Do Manually:**
+  - Provide the new WhatsApp number so we can update it across the store.
+
+---
+
+## 2026-11-08 — Website Redesign: Prompt W1 (Base Redesign, Header, Hero, Features & Lenis)
+
+- **Branch:** `website-redesign`
+- **What Was Done:**
+  1. **Archive Old Assets:**
+     - Safely backed up legacy styles to `archive/css/style.old.css`.
+     - Safely backed up legacy chat assistant to `archive/js/chat-assistant.old.js`.
+  2. **Mobile-First trueawrah-Style Stylesheet (`css/style.css`):**
+     - Authored lean mobile-first stylesheet (<1,100 lines) built on a 375px base with clean media queries at `@media (min-width: 640px)`, `@media (min-width: 900px)`, and `@media (min-width: 1200px)`.
+     - Pure white aesthetic (`#FFFFFF`), light cream surface cards (`#F5F3EE`), 1 crisp font family (`Inter`: 400, 500, 600, 700, 800), and zero unnecessary gradients or borders.
+  3. **Refreshed Storefront Structure (`index.html`):**
+     - **Announcement Bar:** 1 static, uncluttered line (*Free delivery over Rs. 2,500 · Open parcel check · 100% COD*). Ticker removed.
+     - **Sticky Header (72px desktop / 64px mobile):** Brand emblem logo + wordmark, 4 anchor links (`#hero`, `#collection`, `#wholesale`, `#contact`), Currency selector placeholder pill (`🇵🇰 PK · PKR ⌄`), desktop WhatsApp icon, and mobile hamburger button.
+     - **Fullscreen Mobile Menu:** Overlay modal with smooth navigation links and WhatsApp direct contact button.
+     - **Centred Hero Section:** Eyebrow badge (*DIRECT FACTORY-TO-CUSTOMER • 100% PURE KOREAN CREPE*), bold H1 (*Pure Modest Grace. Direct From The Factory.*), Roman Urdu customer assurance lead text, CTA button scrolling directly to `#collection`, and 2 side-by-side authentic factory jilbab photos in rounded 1:1 cards (Midnight Navy & Chocolate Mocha).
+     - **Feature Strip:** 4 cream cards highlighting Open Parcel COD, Direct Factory Rates, 7-Day Exchange, and Nationwide Delivery with clean inline SVG icons.
+     - **Smooth Scroll (Lenis):** Integrated Lenis 1.3.4 inertia scrolling with `prefers-reduced-motion` check and smooth anchor scrolling offset.
+     - **Clean Floating Action:** Modern slim floating WhatsApp pill (`.whatsapp-floating-pill`) replacing bulky popups.
+  4. **Mobile Navigation Wiring (`js/main.js`):**
+     - Tied `#mobileMenuBtn`, `.hamburger-btn`, and `#mobileNavOverlay` with lock on body scroll and automatic dismissal upon link click.
+  5. **Responsive Verification:**
+     - Tested on headless Chrome with DevTools protocol at 1280px desktop and 375px mobile (iPhone SE dimensions). Verified zero horizontal scroll overflow (`scrollWidth === innerWidth`), correct element heights, and smooth interactions.
+- **Files Changed:**
+  - `css/style.css`
+  - `index.html`
+  - `js/main.js`
+  - `.gitignore`
+  - `archive/css/style.old.css`
+  - `archive/js/chat-assistant.old.js`
+  - `docs/AGENTS.md`
+  - `docs/PLAN_Website-Redesign.md`
+  - `docs/PROGRESS.md`
+- **How to Test:**
+  - Open `http://localhost:3000/` in browser.
+  - Desktop (1280px): Check the clean 72px header, announcement bar, centred hero with 2 side-by-side real photos, and 4 feature cards.
+  - Mobile (375px): Tap hamburger icon to open smooth fullscreen menu. Notice currency pill fits neatly alongside the logo.
+  - Scroll page: Experience smooth inertia scrolling with Lenis.
+- **What is Left:**
+  - Prompt W2: Single-page collection + simple cards (`data/products.json`, `js/products.js`, archive `collection.html` with redirect, restyle Wholesale, Reviews, IG feed, Opt-in, Footer).
+
