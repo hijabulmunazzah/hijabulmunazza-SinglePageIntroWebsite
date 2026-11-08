@@ -4,7 +4,9 @@
   "description": "Hijab ul Munnazah — Pure Modest Fashion & Manufacturer Wholesale Collection",
   "main": "local_server.js",
   "scripts": {
-    "start": "node local_server.js"
+    "start": "npx tsx dev_server.ts",
+    "dev": "npx tsx dev_server.ts",
+    "server": "node local_server.js"
   },
   "keywords": [
     "hijab",
