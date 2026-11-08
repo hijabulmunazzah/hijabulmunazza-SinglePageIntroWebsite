@@ -84,11 +84,41 @@ document.addEventListener('DOMContentLoaded', () => {
     getTikTokUrl: () => `https://www.tiktok.com/@hijabulmunazzah`
   };
 
-  // Wire all dynamic Social Hub buttons across pages
+  // ---------- Analytics Initialization (GA4 & Meta Pixel) ----------
+  if (config.ga4Id && config.ga4Id.trim() !== '') {
+    const gaScript = document.createElement('script');
+    gaScript.async = true;
+    gaScript.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(config.ga4Id)}`;
+    document.head.appendChild(gaScript);
+
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { window.dataLayer.push(arguments); }
+    window.gtag = gtag;
+    gtag('js', new Date());
+    gtag('config', config.ga4Id);
+  }
+
+  if (config.metaPixelId && config.metaPixelId.trim() !== '') {
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', config.metaPixelId);
+    fbq('track', 'PageView');
+  }
+
+  // Wire all dynamic Social Hub buttons across pages with Analytics tracking
   document.querySelectorAll('.btn-social-wa').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
       const title = btn.dataset.productTitle || btn.closest('.product-card')?.querySelector('.product-title')?.textContent?.trim() || '';
+      if (typeof config.trackEvent === 'function') {
+        config.trackEvent('click_whatsapp', { item: title, page: window.location.pathname });
+      }
       const url = config.getWhatsAppUrl(title);
       window.open(url, '_blank');
     });
@@ -98,6 +128,9 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
       const title = btn.dataset.productTitle || btn.closest('.product-card')?.querySelector('.product-title')?.textContent?.trim() || '';
+      if (typeof config.trackEvent === 'function') {
+        config.trackEvent('click_instagram', { item: title, page: window.location.pathname });
+      }
       const url = config.getInstagramDmUrl(title);
       window.open(url, '_blank');
     });
@@ -106,59 +139,58 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.btn-social-tt').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
+      if (typeof config.trackEvent === 'function') {
+        config.trackEvent('click_tiktok', { page: window.location.pathname });
+      }
       const url = config.getTikTokUrl();
       window.open(url, '_blank');
     });
   });
 
   // ==========================================================================
-  // VIP REMEMBER ME MODAL (DISCOUNT VOUCHER)
+  // LATEST FROM INSTAGRAM FEED (reads data/posts.json)
+  // ==========================================================================
+  const feedContainer = document.querySelector('#instagramFeedGrid');
+  if (feedContainer) {
+    fetch('data/posts.json')
+      .then(res => {
+        if (!res.ok) throw new Error('Posts not found');
+        return res.json();
+      })
+      .then(posts => {
+        if (!Array.isArray(posts) || posts.length === 0) return;
+        feedContainer.innerHTML = posts.map(post => `
+          <a href="${post.permalink || 'https://instagram.com/hijabulmunazzah.pk'}" target="_blank" class="instagram-card">
+            <div class="instagram-media-wrap">
+              <img src="${post.media_url}" alt="Instagram Post" loading="lazy" onerror="this.src='images/brand-story.jpg'" />
+              <span class="instagram-overlay-badge"><i class="fab fa-instagram"></i></span>
+            </div>
+            <div class="instagram-card-body">
+              <p class="instagram-caption">${post.caption}</p>
+              <div class="instagram-footer">
+                <span><i class="far fa-heart" style="color:#dc2743;"></i> ${post.like_count || 150} likes</span>
+                <span style="color:var(--color-primary); font-weight:600;">View &rarr;</span>
+              </div>
+            </div>
+          </a>
+        `).join('');
+      })
+      .catch(err => {
+        console.log('Instagram feed loaded statically or offline:', err.message);
+      });
+  }
+
+  // ==========================================================================
+  // OPT-IN FORM (SUPABASE CONTACTS + PECA COMPLIANT CONSENT)
   // ==========================================================================
   const rememberModal = document.querySelector('#rememberModal');
   const openModalBtn = document.querySelector('#openRememberModal');
   const openVipNavBtn = document.querySelector('#openVipNavBtn');
   const closeModalBtn = document.querySelector('#closeRememberModal');
-  const rememberForm = document.querySelector('#rememberForm');
+  const optinForm = document.querySelector('#optinForm') || document.querySelector('#rememberForm');
   const rememberSuccess = document.querySelector('#rememberSuccess');
   const closeSuccessBtn = document.querySelector('#closeSuccessBtn');
-  const tabPhoneBtn = document.querySelector('#tabPhoneBtn');
-  const tabEmailBtn = document.querySelector('#tabEmailBtn');
-  const fieldPhoneGroup = document.querySelector('#fieldPhoneGroup');
-  const fieldEmailGroup = document.querySelector('#fieldEmailGroup');
-  const rememberPhoneInput = document.querySelector('#rememberPhone');
-  const rememberEmailInput = document.querySelector('#rememberEmail');
-  const errorMsg = document.querySelector('#rememberError');
-
-  let activeContactTab = 'phone';
-
-  function switchContactTab(tab) {
-    activeContactTab = tab;
-    if (errorMsg) errorMsg.style.display = 'none';
-
-    if (tab === 'phone') {
-      tabPhoneBtn?.classList.add('active');
-      tabEmailBtn?.classList.remove('active');
-      if (fieldPhoneGroup) fieldPhoneGroup.style.display = 'block';
-      if (fieldEmailGroup) fieldEmailGroup.style.display = 'none';
-      rememberPhoneInput?.focus();
-    } else {
-      tabEmailBtn?.classList.add('active');
-      tabPhoneBtn?.classList.remove('active');
-      if (fieldEmailGroup) fieldEmailGroup.style.display = 'block';
-      if (fieldPhoneGroup) fieldPhoneGroup.style.display = 'none';
-      rememberEmailInput?.focus();
-    }
-  }
-
-  if (tabPhoneBtn) tabPhoneBtn.addEventListener('click', () => switchContactTab('phone'));
-  if (tabEmailBtn) tabEmailBtn.addEventListener('click', () => switchContactTab('email'));
-
-  if (rememberPhoneInput) {
-    rememberPhoneInput.addEventListener('input', (e) => {
-      e.target.value = e.target.value.replace(/\D/g, '').slice(0, 11);
-      if (errorMsg) errorMsg.style.display = 'none';
-    });
-  }
+  const errorMsg = document.querySelector('#optinError') || document.querySelector('#rememberError');
 
   function shouldShowRememberModal() {
     const now = Date.now();
@@ -184,22 +216,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const isSubmitted = submittedUntil && parseInt(submittedUntil, 10) > Date.now();
 
     if (isManual && (isSubmitted || saved)) {
-      if (rememberForm) rememberForm.style.display = 'none';
+      if (optinForm) optinForm.style.display = 'none';
       if (rememberSuccess) {
         rememberSuccess.style.display = 'block';
         const claimBtn = document.querySelector('#claimOnWhatsAppBtn');
         if (claimBtn && saved) {
           const text = window.HUMTracker ?
             window.HUMTracker.getWhatsAppText(saved) :
-            `Assalam o Alaikum Hijab ul Munnazah! Maine VIP Remember Me join kiya hai. Mera Rs. 500 Discount Voucher (HUM-VIP500) confirm karein.`;
-          claimBtn.href = `https://wa.me/${OWNER_WHATSAPP}?text=${encodeURIComponent(text)}`;
+            `Assalam o Alaikum Hijab ul Munnazah! Maine VIP club join kiya hai. Mera Rs. 500 Discount Voucher (HUM-VIP500) confirm karein.`;
+          claimBtn.href = `https://wa.me/${config.whatsappNumber || OWNER_WHATSAPP}?text=${encodeURIComponent(text)}`;
         }
       }
     } else {
-      if (rememberForm) rememberForm.style.display = 'block';
+      if (optinForm) optinForm.style.display = 'block';
       if (rememberSuccess) rememberSuccess.style.display = 'none';
-      if (saved && document.querySelector('#rememberName')) {
-        document.querySelector('#rememberName').value = saved.name || '';
+      if (saved) {
+        const nameField = document.querySelector('#optinName') || document.querySelector('#rememberName');
+        if (nameField && saved.name) nameField.value = saved.name;
+        const phoneField = document.querySelector('#optinPhone') || document.querySelector('#rememberPhone');
+        if (phoneField && saved.phone) phoneField.value = saved.phone.replace('+92', '03');
+        const emailField = document.querySelector('#optinEmail') || document.querySelector('#rememberEmail');
+        if (emailField && saved.email) emailField.value = saved.email;
       }
     }
 
@@ -243,50 +280,81 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Handle VIP form submit
-  if (rememberForm) {
-    rememberForm.addEventListener('submit', (e) => {
+  // Handle Opt-in form submit
+  if (optinForm) {
+    const phoneInput = document.querySelector('#optinPhone') || document.querySelector('#rememberPhone');
+    if (phoneInput) {
+      phoneInput.addEventListener('input', (e) => {
+        e.target.value = e.target.value.replace(/\D/g, '').slice(0, 11);
+        if (errorMsg) errorMsg.style.display = 'none';
+      });
+    }
+
+    optinForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      const name = document.querySelector('#rememberName')?.value.trim();
-      let normalizedPhone = null;
-      let normalizedEmail = null;
+      const name = (document.querySelector('#optinName') || document.querySelector('#rememberName'))?.value.trim();
+      const rawPhone = (document.querySelector('#optinPhone') || document.querySelector('#rememberPhone'))?.value.replace(/\D/g, '').trim();
+      const rawEmail = (document.querySelector('#optinEmail') || document.querySelector('#rememberEmail'))?.value.trim();
+      const consentWA = document.querySelector('#consentWhatsApp')?.checked || false;
+      const consentEmail = document.querySelector('#consentEmail')?.checked || false;
 
       if (!name) {
         if (errorMsg) {
-          errorMsg.textContent = 'Baraye meharbani apna naam darj karein.';
+          errorMsg.textContent = 'Baraye meharbani apna mukammal naam darj karein.';
           errorMsg.style.display = 'block';
         }
         return;
       }
 
-      if (activeContactTab === 'phone') {
-        const rawPhone = rememberPhoneInput?.value.replace(/\D/g, '').trim();
-        if (!rawPhone || rawPhone.length < 10) {
-          if (errorMsg) {
-            errorMsg.textContent = 'Durust Pakistani phone number darj karein (e.g. 0307 1771829).';
-            errorMsg.style.display = 'block';
-          }
-          return;
+      if (!rawPhone || rawPhone.length < 10) {
+        if (errorMsg) {
+          errorMsg.textContent = 'Durust Pakistani phone number darj karein (e.g. 0307 1771829).';
+          errorMsg.style.display = 'block';
         }
-        normalizedPhone = rawPhone.startsWith('0') ? '+92' + rawPhone.substring(1) : '+92' + rawPhone;
-      } else {
-        const rawEmail = rememberEmailInput?.value.trim();
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!rawEmail || !emailRegex.test(rawEmail)) {
-          if (errorMsg) {
-            errorMsg.textContent = 'Durust email address darj karein (e.g. name@gmail.com).';
-            errorMsg.style.display = 'block';
-          }
-          return;
-        }
-        normalizedEmail = rawEmail.toLowerCase();
+        return;
       }
 
-      // Save customer locally
+      if (!consentWA && !consentEmail) {
+        if (errorMsg) {
+          errorMsg.textContent = 'Baraye meharbani kam az kam aik consent option (WhatsApp ya Email) select karein.';
+          errorMsg.style.display = 'block';
+        }
+        return;
+      }
+
+      if (rawEmail) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(rawEmail)) {
+          if (errorMsg) {
+            errorMsg.textContent = 'Durust email address darj karein (e.g. ayesha@gmail.com).';
+            errorMsg.style.display = 'block';
+          }
+          return;
+        }
+      }
+
+      const normalizedPhone = rawPhone.startsWith('0') ? '+92' + rawPhone.substring(1) : '+92' + rawPhone;
+      const normalizedEmail = rawEmail ? rawEmail.toLowerCase() : null;
+
+      // Extract UTM parameters
+      const urlParams = new URLSearchParams(window.location.search);
+      const utmObj = {};
+      ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'].forEach(k => {
+        if (urlParams.get(k)) utmObj[k] = urlParams.get(k);
+      });
+
+      const consentTextParts = [];
+      if (consentWA) consentTextParts.push('WhatsApp updates for new drops');
+      if (consentEmail) consentTextParts.push('Email updates for discount vouchers');
+      const consentText = consentTextParts.join('; ');
+
+      // Save customer data in localStorage
       const customerData = {
         name,
         phone: normalizedPhone,
         email: normalizedEmail,
+        consent_whatsapp: consentWA,
+        consent_email: consentEmail,
         joinedAt: new Date().toISOString()
       };
       localStorage.setItem('hum_saved_customer', JSON.stringify(customerData));
@@ -296,16 +364,54 @@ document.addEventListener('DOMContentLoaded', () => {
       localStorage.setItem('hum_vip_submitted_until', (Date.now() + thirtyDays).toString());
       sessionStorage.setItem('hum_vip_dismissed', 'true');
 
-      // WhatsApp Claim Button Link
+      // Dispatch to Supabase REST if configured
+      if (config.supabaseUrl && config.supabaseAnonKey) {
+        fetch(`${config.supabaseUrl}/rest/v1/contacts`, {
+          method: 'POST',
+          headers: {
+            'apikey': config.supabaseAnonKey,
+            'Authorization': `Bearer ${config.supabaseAnonKey}`,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=minimal'
+          },
+          body: JSON.stringify({
+            name,
+            whatsapp: normalizedPhone,
+            email: normalizedEmail,
+            consent_whatsapp: consentWA,
+            consent_email: consentEmail,
+            consent_text: consentText,
+            source_page: window.location.pathname.split('/').pop() || 'index.html',
+            utm: utmObj
+          })
+        }).then(res => {
+          if (!res.ok) console.warn('Supabase contact response status:', res.status);
+        }).catch(err => {
+          console.warn('Supabase contact error:', err);
+        });
+      }
+
+      // Track analytics event
+      if (typeof config.trackEvent === 'function') {
+        config.trackEvent('optin_submit', {
+          source_page: window.location.pathname.split('/').pop() || 'index.html',
+          has_whatsapp: !!normalizedPhone,
+          has_email: !!normalizedEmail,
+          consent_wa: consentWA,
+          consent_email: consentEmail
+        });
+      }
+
+      // Configure claim button
       const claimBtn = document.querySelector('#claimOnWhatsAppBtn');
       if (claimBtn) {
         const text = window.HUMTracker ?
           window.HUMTracker.getWhatsAppText(customerData) :
-          `Assalam o Alaikum Hijab ul Munnazah! Maine VIP Remember Me join kiya hai. Mera Rs. 500 Discount Voucher (HUM-VIP500) confirm karein.`;
-        claimBtn.href = `https://wa.me/${OWNER_WHATSAPP}?text=${encodeURIComponent(text)}`;
+          `Assalam o Alaikum Hijab ul Munnazah! Maine VIP club join kiya hai. Mera Rs. 500 Discount Voucher (HUM-VIP500) confirm karein.`;
+        claimBtn.href = `https://wa.me/${config.whatsappNumber || OWNER_WHATSAPP}?text=${encodeURIComponent(text)}`;
       }
 
-      rememberForm.style.display = 'none';
+      optinForm.style.display = 'none';
       if (rememberSuccess) rememberSuccess.style.display = 'block';
       showToast('VIP Member joined! Rs. 500 voucher ready.', 'fa-gift');
     });

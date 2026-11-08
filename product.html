@@ -354,31 +354,48 @@
   <div class="modal-overlay" id="rememberModal">
     <div class="modal-card">
       <button type="button" class="modal-close-btn" id="closeRememberModal"><i class="fas fa-times"></i></button>
-      <div id="rememberForm">
+      <form id="optinForm">
         <span class="modal-badge-pill"><i class="fas fa-gift"></i> VIP Club Voucher</span>
         <h3 class="modal-title">Join Hijab ul Munnazah VIP</h3>
-        <p class="modal-desc">Enter your details to receive an instant <strong>Rs. 500 Discount Voucher</strong> on your order!</p>
-        <div class="modal-tabs">
-          <button type="button" class="modal-tab-btn active" id="tabPhoneBtn"><i class="fab fa-whatsapp"></i> WhatsApp / Phone</button>
-          <button type="button" class="modal-tab-btn" id="tabEmailBtn"><i class="fas fa-envelope"></i> Email Address</button>
-        </div>
-        <div class="form-error" id="rememberError"></div>
+        <p class="modal-desc">
+          Apni details darj karein aur <strong>Rs. 500 Discount Voucher</strong> (HUM-VIP500) hasil karein!
+        </p>
+
+        <div class="form-error" id="optinError" style="display: none;"></div>
+
         <div class="form-group">
-          <label class="form-label">Apna Naam *</label>
-          <input type="text" id="rememberName" class="form-control" placeholder="Fatima Khan" required />
+          <label class="form-label" for="optinName">Aapka Mukammal Naam (Full Name) *</label>
+          <input type="text" id="optinName" class="form-control" placeholder="e.g. Fatima Khan" required />
         </div>
-        <div class="form-group" id="fieldPhoneGroup">
-          <label class="form-label">WhatsApp Number *</label>
-          <input type="tel" id="rememberPhone" class="form-control" placeholder="0307 1771829" maxlength="11" />
+
+        <div class="form-group">
+          <label class="form-label" for="optinPhone">WhatsApp / Mobile Number *</label>
+          <input type="tel" id="optinPhone" class="form-control" placeholder="0307 1771829" maxlength="11" required />
+          <span class="form-hint">11-digit Pakistani mobile number starting with 03</span>
         </div>
-        <div class="form-group" id="fieldEmailGroup" style="display: none;">
-          <label class="form-label">Email Address *</label>
-          <input type="email" id="rememberEmail" class="form-control" placeholder="name@gmail.com" />
+
+        <div class="form-group">
+          <label class="form-label" for="optinEmail">Email Address (Optional)</label>
+          <input type="email" id="optinEmail" class="form-control" placeholder="fatima@gmail.com" />
+          <span class="form-hint">Voucher code aur secret drop notifications ke liye</span>
         </div>
-        <button type="submit" class="btn btn-primary btn-lg" style="width: 100%; margin-top: 10px;">
+
+        <!-- Explicit Roman Urdu Consent Checkboxes (Unchecked by default) -->
+        <div class="consent-group" style="margin: 16px 0; display: flex; flex-direction: column; gap: 10px; background: var(--color-bg-alt); padding: 12px 14px; border-radius: var(--radius-sm); border: 1px solid var(--color-border);">
+          <label style="display: flex; align-items: flex-start; gap: 10px; font-size: 0.82rem; line-height: 1.4; cursor: pointer; color: var(--color-text);">
+            <input type="checkbox" id="consentWhatsApp" style="margin-top: 2px; accent-color: #25D366; width: 16px; height: 16px;" />
+            <span>Nayi abaya collection aur secret drops ki updates <strong>WhatsApp</strong> par chahiye</span>
+          </label>
+          <label style="display: flex; align-items: flex-start; gap: 10px; font-size: 0.82rem; line-height: 1.4; cursor: pointer; color: var(--color-text);">
+            <input type="checkbox" id="consentEmail" style="margin-top: 2px; accent-color: var(--color-primary); width: 16px; height: 16px;" />
+            <span>Exclusive discount vouchers aur seasonal sale updates <strong>Email</strong> par chahiye</span>
+          </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-lg" id="optinSubmitBtn" style="width: 100%; justify-content: center; margin-top: 10px;">
           <i class="fas fa-unlock-alt"></i> Unlock Rs. 500 Voucher
         </button>
-      </div>
+      </form>
 
       <div id="rememberSuccess" style="display: none; text-align: center;">
         <span class="modal-badge-pill" style="background: #EDF7EE; color: #2E7D32;">VOUCHER UNLOCKED</span>

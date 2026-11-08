@@ -14,6 +14,30 @@ window.HUM_CONFIG = {
   whatsappNumber: '923071771829', // Hijab WhatsApp Number (923071771829)
   whatsappDisplay: '+92 307 1771829',
 
+  // Backend & Database (Supabase REST API)
+  // Fill these with your Supabase project settings
+  supabaseUrl: '', // e.g. 'https://your-project.supabase.co'
+  supabaseAnonKey: '', // Public anon key only (NEVER paste service_role secret here)
+
+  // Analytics IDs (GA4 & Meta Pixel)
+  ga4Id: '', // e.g. 'G-XXXXXXXXXX'
+  metaPixelId: '', // e.g. '123456789012345'
+
+  // Analytics event dispatcher
+  trackEvent: function(eventName, params) {
+    params = params || {};
+    try {
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', eventName, params);
+      }
+      if (typeof window.fbq === 'function') {
+        window.fbq('trackCustom', eventName, params);
+      }
+    } catch (e) {
+      console.warn('Analytics event dispatch error:', e);
+    }
+  },
+
   // Helper generators with UTM tracking
   getWhatsAppUrl: function(productTitle, pageSource) {
     const page = pageSource || (window.location.pathname.split('/').pop() || 'index.html');
