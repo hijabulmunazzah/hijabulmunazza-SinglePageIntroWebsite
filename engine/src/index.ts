@@ -58,7 +58,7 @@ export default {
     }
 
     const url = new URL(request.url);
-    const path = url.pathname;
+    const path = url.pathname.replace(/^\/api/, '') || '/';
 
     // 1. Health check
     if (path === '/health' || path === '/') {

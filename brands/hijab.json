@@ -1,7 +1,7 @@
 {
   "id": "hijab",
   "name": "Hijab ul Munnazah",
-  "tagline": "Pure Modest Elegance & Manufacturer Wholesale Collection",
+  "tagline": "Direct Factory Overhead French Jilbabs & Luxury Modest Abayas",
   "domain": "hijabulmunazzah.com",
   "supportEmail": "hijabulmunazzah@gmail.com",
   "handles": {
@@ -19,79 +19,110 @@
     "whatsapp": "#25D366"
   },
   "modestyRules": {
-    "fit": "Loose modest fit, no revealing cuts, fluid drape",
-    "headCoverage": "Full proper hijab and stole drape covering head, hair, and neck",
+    "fit": "Loose modest fit, no revealing cuts, fluid overhead drape, zero body contouring",
+    "headCoverage": "Full French overhead jilbab coverage with integrated khimar and tie-back niqab",
     "models": "Faceless or modest silhouettes; never use real people or celebrity likenesses",
     "transparency": "Mark realistic AI generated images with platform AI label"
   },
   "catalog": {
-    "type": "abaya_and_hijab",
+    "type": "french_jilbab_and_abaya",
     "currency": "PKR",
     "allowDirectWebsiteOrders": false,
     "salesChannels": ["instagram_dm", "whatsapp"],
     "products": [
       {
-        "id": "dubai-nidha-front-open",
-        "name": "Signature Front-Open Dubai Nidha Abaya",
+        "id": "jilbab-navy",
+        "name": "Signature French Jilbab & Integrated Niqab — Midnight Navy",
         "retail_price": 4850,
         "wholesale_price": 3400,
         "min_wholesale_qty": 5,
-        "fabric": "Authentic Dubai Korean Nidha",
-        "colors": ["Jet Black", "Royal Navy", "Deep Plum"],
-        "includes": ["Matching Stole / Sheila"],
+        "fabric": "Korean Royal Crepe",
+        "colors": ["Midnight Navy", "Chocolate Mocha", "Olive Sage"],
+        "features": ["Integrated Tie-Back Niqab", "Ruched Elastic Wudu Cuffs", "Finger Loops"],
         "in_stock": true
       },
       {
-        "id": "mocha-luxe-gown",
-        "name": "Mocha Luxe Everyday Gown Abaya",
-        "retail_price": 4200,
-        "wholesale_price": 2950,
+        "id": "jilbab-mocha",
+        "name": "Overhead French Jilbab with Integrated Khimar — Chocolate Mocha",
+        "retail_price": 4500,
+        "wholesale_price": 3200,
         "min_wholesale_qty": 5,
-        "fabric": "Soft Matte Crepe",
-        "colors": ["Mocha Brown", "Warm Taupe", "Dusky Rose"],
-        "includes": ["Matching Chiffon Hijab"],
+        "fabric": "Matte Royal Crepe",
+        "colors": ["Chocolate Mocha", "Midnight Navy", "Olive Sage"],
+        "features": ["Built-in Tie-Back Khimar", "Elasticated Sleeves", "100% Non-Slip"],
         "in_stock": true
       },
       {
-        "id": "korean-nada-classic",
-        "name": "Classic Black Korean Nada Gown",
-        "retail_price": 5200,
-        "wholesale_price": 3700,
+        "id": "jilbab-olive",
+        "name": "Premium Everyday French Jilbab — Olive Sage Green",
+        "retail_price": 4650,
+        "wholesale_price": 3300,
         "min_wholesale_qty": 5,
-        "fabric": "Heavyweight Pure Korean Nada",
-        "colors": ["Pure Jet Black"],
-        "includes": ["Luxury Embroidered Stole"],
+        "fabric": "Textured Breathable Crepe",
+        "colors": ["Olive Sage", "Midnight Navy", "Chocolate Mocha"],
+        "features": ["Extra Flared Silhouette", "Cooling Handfeel", "Non-Transparent"],
         "in_stock": true
       },
       {
-        "id": "emerald-silk-stole",
-        "name": "Royal Emerald Silk Chiffon Maxi Stole",
-        "retail_price": 1450,
-        "wholesale_price": 850,
-        "min_wholesale_qty": 10,
-        "fabric": "Silk Chiffon Georgette (72x30 inches)",
-        "colors": ["Emerald Green", "Champagne", "Black", "Sage"],
+        "id": "jilbab-mocha-full",
+        "name": "Full Flared French Jilbab & Niqab Suit — Deep Chocolate",
+        "retail_price": 4950,
+        "wholesale_price": 3500,
+        "min_wholesale_qty": 5,
+        "fabric": "Heavyweight Royal Nada Crepe",
+        "colors": ["Deep Chocolate", "Midnight Navy"],
+        "features": ["2-Piece Suit (Overhead Khimar + Flared Skirt)", "Zero Body Cling"],
         "in_stock": true
       },
       {
-        "id": "premium-georgette-hijab",
-        "name": "Premium Textured Georgette Hijab",
-        "retail_price": 950,
-        "wholesale_price": 550,
-        "min_wholesale_qty": 10,
-        "fabric": "Textured Breathable Georgette",
-        "colors": ["Latte", "Charcoal", "Clay", "Off-White"],
+        "id": "jilbab-navy-cuff",
+        "name": "Midnight Navy French Jilbab with Custom Cuffed Sleeves",
+        "retail_price": 4750,
+        "wholesale_price": 3350,
+        "min_wholesale_qty": 5,
+        "fabric": "Korean Royal Crepe",
+        "colors": ["Midnight Navy", "Chocolate Mocha"],
+        "features": ["Finger Loop Detailing", "Smocked Elastic Cuffs", "Wudu Friendly"],
+        "in_stock": true
+      },
+      {
+        "id": "jilbab-mocha-back",
+        "name": "Classic Overhead French Jilbab — Mocha Flow Drape",
+        "retail_price": 4500,
+        "wholesale_price": 3200,
+        "min_wholesale_qty": 5,
+        "fabric": "Matte Crepe Silk Weave",
+        "colors": ["Chocolate Mocha"],
+        "features": ["Seamless Back Cape Fall", "Featherlight", "Zero Chafing"],
+        "in_stock": true
+      },
+      {
+        "id": "jilbab-olive-hood",
+        "name": "Olive Sage French Jilbab — Minimalist Hood Styling",
+        "retail_price": 4600,
+        "wholesale_price": 3250,
+        "min_wholesale_qty": 5,
+        "fabric": "Breathable Summer Crepe",
+        "colors": ["Olive Sage"],
+        "features": ["Urban Modest Cut", "Adjustable Tie-Back", "Travel Friendly"],
+        "in_stock": true
+      },
+      {
+        "id": "jilbab-mocha-detail",
+        "name": "Signature Integrated Niqab Khimar Drape — Mocha Luxe",
+        "retail_price": 4800,
+        "wholesale_price": 3400,
+        "min_wholesale_qty": 5,
+        "fabric": "Double-Weave Matte Crepe",
+        "colors": ["Chocolate Mocha"],
+        "features": ["Dual-Layer Breathable Niqab", "Glasses Friendly", "Royal Fall"],
         "in_stock": true
       }
     ],
     "sizeChart": {
       "unit": "inches",
       "guide": [
-        { "size": "50", "recommended_height": "4'10\" - 5'0\"", "length": 50, "chest": 38, "sleeve": 26 },
-        { "size": "52", "recommended_height": "5'1\" - 5'3\"", "length": 52, "chest": 40, "sleeve": 27 },
-        { "size": "54", "recommended_height": "5'4\" - 5'5\"", "length": 54, "chest": 42, "sleeve": 28 },
-        { "size": "56", "recommended_height": "5'6\" - 5'8\"", "length": 56, "chest": 44, "sleeve": 29 },
-        { "size": "58", "recommended_height": "5'9\" and above", "length": 58, "chest": 46, "sleeve": 30 }
+        { "size": "Standard Free Size", "recommended_height": "5'0\" - 5'8\"", "length": "56-58", "chest": "Free Flared", "sleeve": "Elastic Ruched with Finger Loop" }
       ]
     },
     "deliveryPolicy": {
@@ -103,7 +134,7 @@
     },
     "exchangePolicy": {
       "days": 7,
-      "conditions": "Agar size ka masla ho ya pasand na aye, 7 din ke andar exchange ki sahulat dastiyab hai."
+      "conditions": "Agar koi masla ho ya color change karna ho, 7 din ke andar exchange ki sahulat dastiyab hai."
     }
   }
 }
