@@ -1567,3 +1567,232 @@ ul, ol {
     visibility: visible;
   }
 }
+
+/* ==========================================================================
+   COUNTRY / CURRENCY SELECTOR MODAL & MOBILE BOTTOM SHEET
+   ========================================================================== */
+.currency-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.currency-modal-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.currency-modal-card {
+  background: #FFFFFF;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 460px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.16);
+  transform: translateY(16px) scale(0.97);
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.currency-modal-overlay.open .currency-modal-card {
+  transform: translateY(0) scale(1);
+}
+
+.currency-modal-grab {
+  display: none;
+}
+
+.currency-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.currency-modal-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1A1816;
+  margin: 0 0 4px;
+}
+
+.currency-modal-sub {
+  font-size: 13px;
+  color: #6E675F;
+  margin: 0;
+}
+
+.currency-modal-close {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #F5F3EE;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #5C554D;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.currency-modal-close:hover {
+  background: #E8E2D8;
+  color: #1A1816;
+}
+
+.currency-search-wrap {
+  position: relative;
+  margin-bottom: 14px;
+}
+
+.currency-search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #8E867E;
+  pointer-events: none;
+}
+
+.currency-search-input {
+  width: 100%;
+  padding: 11px 14px 11px 40px;
+  border: 1px solid #ECE7DE;
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 14px;
+  color: #1A1816;
+  background: #FAF9F6;
+  outline: none;
+  transition: border-color 0.18s ease, background 0.18s ease;
+}
+
+.currency-search-input:focus {
+  border-color: var(--color-gold, #B88E52);
+  background: #FFFFFF;
+}
+
+.currency-country-list {
+  flex-grow: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-inline: -8px;
+  padding-inline: 8px;
+  max-height: 340px;
+}
+
+.currency-item-btn {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  transition: background 0.15s ease;
+  font-family: inherit;
+}
+
+.currency-item-btn:hover {
+  background: #F5F3EE;
+}
+
+.currency-item-btn.selected {
+  background: #F5F1E8;
+}
+
+.currency-item-flag {
+  font-size: 22px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.currency-item-info {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.currency-item-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1A1816;
+}
+
+.currency-item-currency {
+  font-size: 12px;
+  color: #6E675F;
+}
+
+.currency-item-check {
+  color: var(--color-gold, #B88E52);
+  flex-shrink: 0;
+}
+
+.currency-modal-footer {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid #ECE7DE;
+  text-align: center;
+  font-size: 12px;
+  color: #8E867E;
+}
+
+.currency-empty-state {
+  text-align: center;
+  padding: 28px 16px;
+  font-size: 13px;
+  color: #8E867E;
+}
+
+/* Mobile Bottom Sheet (<640px) */
+@media (max-width: 639px) {
+  .currency-modal-overlay {
+    align-items: flex-end;
+    padding: 0;
+  }
+
+  .currency-modal-card {
+    max-width: 100vw;
+    border-radius: 22px 22px 0 0;
+    padding: 16px 20px 24px;
+    max-height: 80vh;
+    transform: translateY(100%);
+  }
+
+  .currency-modal-overlay.open .currency-modal-card {
+    transform: translateY(0);
+  }
+
+  .currency-modal-grab {
+    display: block;
+    width: 44px;
+    height: 5px;
+    background: #D8CEC3;
+    border-radius: 3px;
+    margin: 0 auto 14px;
+    flex-shrink: 0;
+  }
+}

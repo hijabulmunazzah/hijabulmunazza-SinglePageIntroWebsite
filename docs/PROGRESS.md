@@ -426,4 +426,42 @@
     - Scroll to Instagram: verify clean black pill button with white text and smooth gold hover.
     - Scroll down: TaxiDex assistant popup gently appears above the gold chat pill.
 
+---
+
+## 2026-11-08 — Country / Currency Selector Implementation (Prompt W3 Delivered Ahead of Schedule)
+
+- **Branch:** `website-redesign`
+- **What Was Done:**
+  1. **Country & Currency Selector Engine (`js/currency.js`):**
+     - Clicking the header pill (`🇵🇰 PK · PKR ⌄`) opens the interactive Country & Currency selector.
+     - Supports 24 countries (Pakistan, Saudi Arabia, UAE, Qatar, Kuwait, Oman, Bahrain, UK, USA, Canada, Australia, Germany, France, Netherlands, Turkey, Malaysia, Singapore, etc.).
+     - Live search filter: filtering country list instantly by name, country code, or currency symbol.
+     - Instant price conversion across all cards (`.price-current`, `.price-original`, `[data-pkr]`): converts PKR base prices into local currency with clean formatting (e.g. `SAR 65`, `£14`, `$17`).
+     - Selecting Pakistan (PKR) restores original `Rs. X,XXX` text.
+     - Persists customer selection in `localStorage` across page visits.
+     - Accessible: dismissible via backdrop click, `(x)` close button, or `Escape` key.
+  2. **Mobile Native Bottom Sheet (<640px) & Desktop Popover:**
+     - On mobile screens, slides up as a bottom sheet with a grab handle and dim backdrop.
+     - On desktop screens, opens as an elegant centered dialog modal.
+  3. **Build-Time Rates & Update Script:**
+     - Created `data/rates.json` containing base PKR exchange rates.
+     - Created `scripts/update_rates.js` to update rates via ExchangeRate-API build-time script with zero browser API keys exposed.
+  4. **Attribution:**
+     - Added "Display rates by ExchangeRate-API" attribution in the footer.
+- **Files Changed:**
+  - `data/rates.json` (Created)
+  - `js/currency.js` (Created)
+  - `scripts/update_rates.js` (Created)
+  - `css/style.css`
+  - `index.html`
+  - `docs/PROGRESS.md`
+- **How to Test:**
+  - Click `🇵🇰 PK · PKR ⌄` in the header:
+    - Mobile: bottom sheet slides up with country list and search input.
+    - Desktop: clean modal dialog opens.
+  - Type "Saudi" or "SAR" or "UK" in the search box to test live search filtering.
+  - Click Saudi Arabia (`SAR`): header pill updates to `🇸🇦 SA · SAR ⌄`, and all visible product prices convert to `SAR 65`, etc.
+  - Click Pakistan (`PKR`): prices immediately restore to `Rs. 4,850`.
+
+
 
