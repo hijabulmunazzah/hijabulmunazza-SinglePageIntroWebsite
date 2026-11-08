@@ -159,7 +159,23 @@
       }
     }, { passive: true });
 
-    // Proactive Auto-Open: Gently pops up after 3.5 seconds unless dismissed
+    // Scroll trigger: "on scroll pr remember me ka dilog"
+    let scrollTriggered = false;
+    window.addEventListener('scroll', () => {
+      if (scrollTriggered) return;
+      if (window.scrollY > 150) {
+        scrollTriggered = true;
+        try {
+          if (!sessionStorage.getItem('hum_assistant_dismissed')) {
+            openAssistant();
+          }
+        } catch (e) {
+          openAssistant();
+        }
+      }
+    }, { passive: true });
+
+    // Proactive Auto-Open: Gently pops up after 3 seconds unless dismissed
     try {
       const isDismissed = sessionStorage.getItem('hum_assistant_dismissed');
       if (!isDismissed) {
@@ -167,10 +183,10 @@
           if (!card.classList.contains('open')) {
             openAssistant();
           }
-        }, 3500);
+        }, 3000);
       }
     } catch (e) {
-      setTimeout(openAssistant, 3500);
+      setTimeout(openAssistant, 3000);
     }
   }
 

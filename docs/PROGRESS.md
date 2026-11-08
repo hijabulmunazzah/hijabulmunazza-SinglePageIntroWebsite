@@ -390,3 +390,40 @@
 - **What is Left:**
   - Prompt W2: Single-page collection + simple cards (`data/products.json`, `js/products.js`, archive `collection.html` with redirect, restyle Wholesale, Reviews, IG feed, Opt-in, Footer).
 
+---
+
+## 2026-11-08 — Interactive Refinements: Product Hover View, TaxiDex Bottom Sheet on Scroll, Section Spacing & Instagram Pill
+
+- **Branch:** `website-redesign`
+- **What Was Done:**
+  1. **Product Card Hover View Switch:**
+     - Added secondary product images (`.secondary-img`) to all product cards (e.g. `jilbab-navy-1.jpg` -> `jilbab-navy-cuff.jpg`, `jilbab-mocha-1.jpg` -> `jilbab-mocha-detail.jpg`, `jilbab-olive-1.jpg` -> `jilbab-olive-hood.jpg`).
+     - Added silky smooth opacity crossfade and 1.04x zoom on hover so customers see alternate angles and fabric details upon hovering.
+  2. **TaxiDex Assistant & Mobile Native Bottom Sheet on Scroll:**
+     - Restored `js/chat-assistant.js` with TaxiDex-inspired assistant popup on desktop and mobile bottom sheet.
+     - Added proactive scroll trigger (`window.scrollY > 150` or 3s timer): gently displays the "Welcome back 👋" dialog.
+     - Mobile (<640px) opens as a bottom sheet with rounded top corners (`22px`), top grab handle, dim background backdrop, large watermark `Hijab-ul-Munnazah`, avatar, and full-width `[ Continue ]` button.
+     - Floating `[ 💬 Chat with us ]` pill button with live pulsing green dot docked in bottom-right.
+  3. **Section Spacing & Gap Correction:**
+     - Fixed vertical spacing between Wholesale Starter Bundle and the following section/images. Styled `.wholesale-action-box` with proper `margin-top: 24px` and `.story-section` with generous `clamp(64px, 8vw, 96px)` padding so cards and photos never touch without breathing room.
+  4. **Instagram Follow Button Redesign:**
+     - Replaced broken inline gradient button with a sleek trueawrah-style dark pill (`.instagram-follow-pill`) with inline Instagram and arrow SVG icons, proper padding, and smooth gold hover effect.
+  5. **Mobile Navigation Overlay Top Padding Fix:**
+     - Compacted mobile announcement bar to a clean single line on mobile with `.hide-mobile`.
+     - Increased `.mobile-nav-overlay` padding to `135px 24px 32px` ensuring the "Home" navigation link has ample clearance and is never clipped behind the sticky header.
+- **Files Changed:**
+  - `css/style.css`
+  - `index.html`
+  - `js/chat-assistant.js`
+  - `docs/PROGRESS.md`
+- **How to Test:**
+  - Mobile (375px):
+    - Open menu: verify "Home" link is completely visible with generous clearance below header.
+    - Click "Chat with us" pill or scroll: bottom sheet slides up with grab handle, dim backdrop, and subtle watermark.
+  - Desktop (1280px):
+    - Hover over any product card in the collection: notice the image smoothly transitions to show the secondary angle/cuff/detail view.
+    - Scroll past Wholesale: verify clean whitespace between Starter Bundle card and the photo below.
+    - Scroll to Instagram: verify clean black pill button with white text and smooth gold hover.
+    - Scroll down: TaxiDex assistant popup gently appears above the gold chat pill.
+
+
