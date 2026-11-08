@@ -1,0 +1,109 @@
+{
+  "id": "hijab",
+  "name": "Hijab ul Munnazah",
+  "tagline": "Pure Modest Elegance & Manufacturer Wholesale Collection",
+  "domain": "hijabulmunazzah.com",
+  "supportEmail": "hijabulmunazzah@gmail.com",
+  "handles": {
+    "instagram": "hijabulmunazzah.pk",
+    "facebook": "https://facebook.com/hijabulmunazzah",
+    "tiktok": "https://www.tiktok.com/@hijabulmunazzah",
+    "whatsappNumber": "923071771829",
+    "whatsappDisplay": "+92 307 1771829"
+  },
+  "tone": "Respectful, warm Roman Urdu + English, modest, polite, customer-centric",
+  "colours": {
+    "gold": "#C5A880",
+    "primary": "#1A2B4C",
+    "dark": "#0B0A08",
+    "whatsapp": "#25D366"
+  },
+  "modestyRules": {
+    "fit": "Loose modest fit, no revealing cuts, fluid drape",
+    "headCoverage": "Full proper hijab and stole drape covering head, hair, and neck",
+    "models": "Faceless or modest silhouettes; never use real people or celebrity likenesses",
+    "transparency": "Mark realistic AI generated images with platform AI label"
+  },
+  "catalog": {
+    "type": "abaya_and_hijab",
+    "currency": "PKR",
+    "allowDirectWebsiteOrders": false,
+    "salesChannels": ["instagram_dm", "whatsapp"],
+    "products": [
+      {
+        "id": "dubai-nidha-front-open",
+        "name": "Signature Front-Open Dubai Nidha Abaya",
+        "retail_price": 4850,
+        "wholesale_price": 3400,
+        "min_wholesale_qty": 5,
+        "fabric": "Authentic Dubai Korean Nidha",
+        "colors": ["Jet Black", "Royal Navy", "Deep Plum"],
+        "includes": ["Matching Stole / Sheila"],
+        "in_stock": true
+      },
+      {
+        "id": "mocha-luxe-gown",
+        "name": "Mocha Luxe Everyday Gown Abaya",
+        "retail_price": 4200,
+        "wholesale_price": 2950,
+        "min_wholesale_qty": 5,
+        "fabric": "Soft Matte Crepe",
+        "colors": ["Mocha Brown", "Warm Taupe", "Dusky Rose"],
+        "includes": ["Matching Chiffon Hijab"],
+        "in_stock": true
+      },
+      {
+        "id": "korean-nada-classic",
+        "name": "Classic Black Korean Nada Gown",
+        "retail_price": 5200,
+        "wholesale_price": 3700,
+        "min_wholesale_qty": 5,
+        "fabric": "Heavyweight Pure Korean Nada",
+        "colors": ["Pure Jet Black"],
+        "includes": ["Luxury Embroidered Stole"],
+        "in_stock": true
+      },
+      {
+        "id": "emerald-silk-stole",
+        "name": "Royal Emerald Silk Chiffon Maxi Stole",
+        "retail_price": 1450,
+        "wholesale_price": 850,
+        "min_wholesale_qty": 10,
+        "fabric": "Silk Chiffon Georgette (72x30 inches)",
+        "colors": ["Emerald Green", "Champagne", "Black", "Sage"],
+        "in_stock": true
+      },
+      {
+        "id": "premium-georgette-hijab",
+        "name": "Premium Textured Georgette Hijab",
+        "retail_price": 950,
+        "wholesale_price": 550,
+        "min_wholesale_qty": 10,
+        "fabric": "Textured Breathable Georgette",
+        "colors": ["Latte", "Charcoal", "Clay", "Off-White"],
+        "in_stock": true
+      }
+    ],
+    "sizeChart": {
+      "unit": "inches",
+      "guide": [
+        { "size": "50", "recommended_height": "4'10\" - 5'0\"", "length": 50, "chest": 38, "sleeve": 26 },
+        { "size": "52", "recommended_height": "5'1\" - 5'3\"", "length": 52, "chest": 40, "sleeve": 27 },
+        { "size": "54", "recommended_height": "5'4\" - 5'5\"", "length": 54, "chest": 42, "sleeve": 28 },
+        { "size": "56", "recommended_height": "5'6\" - 5'8\"", "length": 56, "chest": 44, "sleeve": 29 },
+        { "size": "58", "recommended_height": "5'9\" and above", "length": 58, "chest": 46, "sleeve": 30 }
+      ]
+    },
+    "deliveryPolicy": {
+      "karachi": { "cost": 200, "estimatedDays": "1-2 din" },
+      "otherCities": { "cost": 250, "estimatedDays": "3-4 din (Lahore, Islamabad, Rawalpindi, Faisalabad, Multan, etc.)" },
+      "freeDeliveryThreshold": 5000,
+      "paymentMethod": "Cash on Delivery (COD)",
+      "openParcelPolicy": "Rider ke samne parcel open karke check karne ki mukammal ijazat hai."
+    },
+    "exchangePolicy": {
+      "days": 7,
+      "conditions": "Agar size ka masla ho ya pasand na aye, 7 din ke andar exchange ki sahulat dastiyab hai."
+    }
+  }
+}

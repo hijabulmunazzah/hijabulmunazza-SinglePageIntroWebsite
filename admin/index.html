@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Growth Studio Admin — Hijab ul Munnazah</title>
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/admin.css" />
+
+  <!-- Supabase JS Client SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="admin-body">
+
+  <!-- ============ AUTH CONTAINER ============ -->
+  <div id="authContainer" class="auth-wrapper">
+    <div class="auth-card">
+      <div class="auth-header">
+        <div class="auth-logo">
+          <i class="fas fa-shield-halved"></i>
+        </div>
+        <h2>Growth Engine Portal</h2>
+        <p>Hijab ul Munnazah &bull; Secure Admin Access</p>
+      </div>
+
+      <!-- Step 1: Email + Password -->
+      <form id="loginForm" class="auth-form">
+        <div id="loginError" class="auth-error" style="display: none;"></div>
+
+        <div class="form-group">
+          <label for="adminEmail">Admin Email</label>
+          <input type="email" id="adminEmail" placeholder="admin@hijabulmunazzah.com" required autocomplete="username" />
+        </div>
+
+        <div class="form-group">
+          <label for="adminPassword">Password</label>
+          <input type="password" id="adminPassword" placeholder="••••••••••••" required autocomplete="current-password" />
+        </div>
+
+        <button type="submit" id="loginBtn" class="btn btn-primary btn-block">
+          <i class="fas fa-arrow-right-to-bracket"></i> Sign In
+        </button>
+      </form>
+
+      <!-- Step 2: TOTP Multi-Factor Authentication (MFA) -->
+      <form id="mfaForm" class="auth-form" style="display: none;">
+        <div class="mfa-notice">
+          <i class="fas fa-lock"></i>
+          <div>
+            <strong>Two-Factor Authentication Required</strong>
+            <span>Apne Authenticator App (Google Authenticator / 1Password) ka 6-digit code enter karein.</span>
+          </div>
+        </div>
+
+        <div id="mfaError" class="auth-error" style="display: none;"></div>
+
+        <div class="form-group">
+          <label for="mfaCode">6-Digit Security Code</label>
+          <input type="text" id="mfaCode" maxlength="6" pattern="\d{6}" placeholder="123456" required autocomplete="one-time-code" style="letter-spacing: 6px; font-size: 1.25rem; text-align: center;" />
+        </div>
+
+        <button type="submit" id="mfaVerifyBtn" class="btn btn-primary btn-block">
+          <i class="fas fa-check-shield"></i> Verify & Open Dashboard
+        </button>
+
+        <button type="button" id="cancelMfaBtn" class="btn btn-link btn-block" style="margin-top: 8px;">
+          Back to Login
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============ MAIN DASHBOARD CONTAINER ============ -->
+  <div id="appContainer" class="app-layout" style="display: none;">
+    
+    <!-- Sidebar / Topnav -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <i class="fas fa-gem"></i>
+        <span>Growth Studio</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <button type="button" class="nav-tab-btn active" data-tab="overview">
+          <i class="fas fa-chart-line"></i> <span>Overview</span>
+        </button>
+        <button type="button" class="nav-tab-btn" data-tab="content-studio">
+          <i class="fas fa-wand-magic-sparkles"></i> <span>Content Studio</span>
+          <span class="badge" id="badgePendingContent">2</span>
+        </button>
+        <button type="button" class="nav-tab-btn" data-tab="leads-crm">
+          <i class="fas fa-comments"></i> <span>Conversations & Leads</span>
+          <span class="badge" id="badgeActiveLeads">5</span>
+        </button>
+        <button type="button" class="nav-tab-btn" data-tab="b2b-outreach">
+          <i class="fas fa-paper-plane"></i> <span>B2B Outreach</span>
+        </button>
+        <button type="button" class="nav-tab-btn" data-tab="settings">
+          <i class="fas fa-sliders"></i> <span>Brand Config</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-pill">
+          <div class="avatar"><i class="fas fa-user-shield"></i></div>
+          <div class="user-info">
+            <span id="userEmailLabel">admin</span>
+            <small>MFA Verified</small>
+          </div>
+        </div>
+        <button type="button" id="logoutBtn" class="logout-btn" title="Sign Out">
+          <i class="fas fa-power-off"></i>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      
+      <!-- Top header -->
+      <header class="app-header">
+        <div class="header-left">
+          <h1 id="pageTitle">Executive Overview</h1>
+          <span class="brand-pill"><i class="fas fa-circle-check"></i> Hijab ul Munnazah</span>
+        </div>
+        <div class="header-right">
+          <span class="status-indicator">
+            <span class="status-dot"></span> Live Engine
+          </span>
+        </div>
+      </header>
+
+      <!-- TAB 1: OVERVIEW -->
+      <section id="tab-overview" class="tab-pane active">
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-icon gold"><i class="fas fa-fire"></i></div>
+            <div class="kpi-data">
+              <span class="kpi-label">Active Hot Leads</span>
+              <h3 class="kpi-value">14</h3>
+              <small class="kpi-trend up"><i class="fas fa-arrow-up"></i> +4 today via WhatsApp/DM</small>
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-icon blue"><i class="fab fa-instagram"></i></div>
+            <div class="kpi-data">
+              <span class="kpi-label">Comment-to-DM Rate</span>
+              <h3 class="kpi-value">92%</h3>
+              <small class="kpi-trend up">Within 24h compliance</small>
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-icon purple"><i class="fas fa-images"></i></div>
+            <div class="kpi-data">
+              <span class="kpi-label">Pending Approval</span>
+              <h3 class="kpi-value">2 Posts</h3>
+              <small class="kpi-trend">Human-in-the-loop queue</small>
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-icon green"><i class="fas fa-envelope-circle-check"></i></div>
+            <div class="kpi-data">
+              <span class="kpi-label">B2B Warm-Up Sends</span>
+              <h3 class="kpi-value">10 / Day</h3>
+              <small class="kpi-trend">0% Bounce &bull; Safe Tier 1</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="dashboard-grid-2">
+          <!-- Recent Leads Card -->
+          <div class="panel-card">
+            <div class="panel-header">
+              <h3><i class="fas fa-user-clock"></i> Recent Inbound Inquiries</h3>
+              <a href="#" class="view-all-link" data-tab-link="leads-crm">View CRM &rarr;</a>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Customer</th>
+                    <th>Channel</th>
+                    <th>Interest</th>
+                    <th>Intent Score</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="recentLeadsTable">
+                  <tr>
+                    <td><strong>Fatima Tariq</strong><br><small>+92 301 ••••129</small></td>
+                    <td><span class="channel-pill wa"><i class="fab fa-whatsapp"></i> WhatsApp</span></td>
+                    <td>Dubai Nidha Abaya (Black 54)</td>
+                    <td><span class="score-badge high">95 (High)</span></td>
+                    <td><span class="status-pill new">Order Inquiry</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Zainab Malik</strong><br><small>@zainab.m</small></td>
+                    <td><span class="channel-pill ig"><i class="fab fa-instagram"></i> Insta DM</span></td>
+                    <td>Royal Chiffon Georgette Stole</td>
+                    <td><span class="score-badge med">78 (Med)</span></td>
+                    <td><span class="status-pill active">Browsing Shade</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Pending Content Approvals -->
+          <div class="panel-card">
+            <div class="panel-header">
+              <h3><i class="fas fa-hand-holding-hand"></i> Human Approval Required</h3>
+              <span class="badge warning">2 Pending</span>
+            </div>
+            <div class="approval-preview-list">
+              <div class="approval-item">
+                <img src="../images/products/abaya-dubai.jpg" alt="Post Preview" />
+                <div class="approval-info">
+                  <h4>Signature Front-Open Dubai Abaya</h4>
+                  <p>✨ Classic Front-Open Dubai Nidha Abaya — Pure modest elegance with matching stole. Comment 'ABAYA' for wholesale prices!</p>
+                  <div class="approval-actions">
+                    <button class="btn btn-sm btn-success"><i class="fas fa-check"></i> Approve & Schedule</button>
+                    <button class="btn btn-sm btn-outline-danger"><i class="fas fa-xmark"></i> Reject</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 2: CONTENT STUDIO -->
+      <section id="tab-content-studio" class="tab-pane">
+        <div class="panel-card">
+          <div class="panel-header">
+            <div>
+              <h3><i class="fas fa-wand-magic-sparkles"></i> AI Content Generation Pipeline</h3>
+              <p class="panel-subtitle">Upload genuine product photos &rarr; AI creates modest background scenes & dual-language captions &rarr; Human approval queue.</p>
+            </div>
+            <span class="badge" style="background: rgba(212, 175, 55, 0.2); color: var(--accent-primary); border: 1px solid var(--accent-primary);">
+              <i class="fas fa-shield-halved"></i> Modesty Guardrails Active
+            </span>
+          </div>
+
+          <div class="notice-box info" style="margin: 20px 24px 0 24px;">
+            <i class="fas fa-shield"></i>
+            <div>
+              <strong>Strict Modesty & IP Protection Rules:</strong>
+              <p>AI strictly preserves authentic product fabric (Nidha/Silk), color, and embroidery. Only luxury architecture, lighting, and faceless silhouettes are rendered. Human approval is strictly enforced before anything can be queued.</p>
+            </div>
+          </div>
+
+          <!-- Studio Generator Form -->
+          <div class="studio-generator-box" style="padding: 24px;">
+            <form id="studioGenerateForm">
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px;">
+                <div class="form-group">
+                  <label for="studioProductSelect">Select Genuine Product</label>
+                  <select id="studioProductSelect" class="form-select" style="width: 100%; padding: 12px; background: var(--bg-alt); border: 1px solid var(--border-color); color: var(--text-main); border-radius: var(--radius-sm);">
+                    <option value="Signature Front-Open Dubai Nidha Abaya">Signature Front-Open Dubai Nidha Abaya (Jet Black)</option>
+                    <option value="Mocha Luxe Everyday Gown Abaya">Mocha Luxe Everyday Gown Abaya</option>
+                    <option value="Royal Emerald Silk Chiffon Maxi Stole">Royal Emerald Silk Chiffon Maxi Stole</option>
+                    <option value="Classic Black Korean Nada Gown">Classic Black Korean Nada Gown</option>
+                    <option value="Custom Product">Custom Product / New Arrival</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="studioModestySelect">Modesty Styling Mode</label>
+                  <select id="studioModestySelect" class="form-select" style="width: 100%; padding: 12px; background: var(--bg-alt); border: 1px solid var(--border-color); color: var(--text-main); border-radius: var(--radius-sm);">
+                    <option value="faceless">Faceless Silhouette (Recommended - 100% Modesty Safe)</option>
+                    <option value="modest_silhouette">Modest 3/4 Profile with Full Hijab Drape</option>
+                    <option value="flatlay">Luxury Flatlay on Travertine Marble Pedestal</option>
+                  </select>
+                </div>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px;">
+                <div class="form-group">
+                  <label for="studioPhotoSelect">Product Photo Reference</label>
+                  <select id="studioPhotoSelect" class="form-select" style="width: 100%; padding: 12px; background: var(--bg-alt); border: 1px solid var(--border-color); color: var(--text-main); border-radius: var(--radius-sm);">
+                    <option value="../images/products/abaya-dubai.jpg">Dubai Nidha Abaya (Genuine Stock Photo)</option>
+                    <option value="../images/products/abaya-mocha.jpg">Mocha Luxe Gown (Genuine Stock Photo)</option>
+                    <option value="../images/products/silk-emerald.jpg">Emerald Stole (Genuine Stock Photo)</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="studioPlatformSelect">Target Platforms</label>
+                  <select id="studioPlatformSelect" class="form-select" style="width: 100%; padding: 12px; background: var(--bg-alt); border: 1px solid var(--border-color); color: var(--text-main); border-radius: var(--radius-sm);">
+                    <option value="instagram">Instagram (Feed Carousel & Reel)</option>
+                    <option value="facebook">Facebook Page (Photo & Catalog Post)</option>
+                    <option value="tiktok">TikTok (Modest Styling Video)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group" style="margin-bottom: 20px;">
+                <label for="studioPromptInput">Creative Direction / Scene (Roman Urdu ya English)</label>
+                <textarea id="studioPromptInput" rows="3" placeholder="Misaal: Sunlit travertine marble courtyard, soft golden hour lighting, luxury Pakistani modest aesthetic, wholesale trust CTA..." style="width: 100%; padding: 12px; background: var(--bg-alt); border: 1px solid var(--border-color); color: var(--text-main); border-radius: var(--radius-sm); font-family: inherit; font-size: 0.9rem;"></textarea>
+              </div>
+
+              <button type="submit" id="btnStudioGenerate" class="btn btn-primary" style="padding: 12px 24px;">
+                <i class="fas fa-wand-magic-sparkles"></i> Generate 4 Modest Variants & Dual Captions
+              </button>
+            </form>
+          </div>
+
+          <!-- Studio Live Generated Output Workspace (Hidden until generated) -->
+          <div id="studioResultsArea" style="display: none; border-top: 1px solid var(--border-color); padding: 24px; background: var(--bg-alt);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
+              <h4 style="font-size: 1.1rem; color: var(--accent-primary);"><i class="fas fa-sparkles"></i> AI Generated Post Draft & Variants</h4>
+              <span id="studioCostBadge" class="badge" style="background: rgba(0, 168, 132, 0.2); color: #34D399; padding: 6px 12px; font-size: 0.8rem;">
+                Estimated Cost: $0.128 (~Rs 35.5 PKR)
+              </span>
+            </div>
+
+            <!-- Modesty Checklist Bar -->
+            <div style="display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 20px;">
+              <span class="badge" style="background: rgba(52, 211, 153, 0.15); color: #34D399; padding: 6px 12px;"><i class="fas fa-check-circle"></i> Loose Fit Confirmed</span>
+              <span class="badge" style="background: rgba(52, 211, 153, 0.15); color: #34D399; padding: 6px 12px;"><i class="fas fa-check-circle"></i> Full Hijab / Neck Covered</span>
+              <span class="badge" style="background: rgba(52, 211, 153, 0.15); color: #34D399; padding: 6px 12px;"><i class="fas fa-check-circle"></i> Non-Transparent Fabric</span>
+              <span class="badge" style="background: rgba(52, 211, 153, 0.15); color: #34D399; padding: 6px 12px;"><i class="fas fa-check-circle"></i> Faceless Modest Drape</span>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 24px;">
+              <!-- Left: 4 Generated Visual Variants -->
+              <div>
+                <label style="font-size: 0.82rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; display: block;">
+                  Select Image Variant (Click to Pick)
+                </label>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;" id="studioVariantGrid">
+                  <!-- Variant 1 -->
+                  <div class="variant-card selected" style="position: relative; border: 2px solid var(--accent-primary); border-radius: var(--radius-sm); overflow: hidden; cursor: pointer; aspect-ratio: 1/1;">
+                    <img id="imgVariant1" src="../images/products/abaya-dubai.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Variant 1" />
+                    <span style="position: absolute; bottom: 8px; left: 8px; background: rgba(0,0,0,0.7); font-size: 0.72rem; padding: 2px 6px; border-radius: 4px;">Variant 1 &bull; Travertine Arch</span>
+                  </div>
+                  <!-- Variant 2 -->
+                  <div class="variant-card" style="position: relative; border: 1px solid var(--border-color); border-radius: var(--radius-sm); overflow: hidden; cursor: pointer; aspect-ratio: 1/1;">
+                    <img id="imgVariant2" src="../images/products/abaya-mocha.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Variant 2" />
+                    <span style="position: absolute; bottom: 8px; left: 8px; background: rgba(0,0,0,0.7); font-size: 0.72rem; padding: 2px 6px; border-radius: 4px;">Variant 2 &bull; Warm Golden Light</span>
+                  </div>
+                  <!-- Variant 3 -->
+                  <div class="variant-card" style="position: relative; border: 1px solid var(--border-color); border-radius: var(--radius-sm); overflow: hidden; cursor: pointer; aspect-ratio: 1/1;">
+                    <img id="imgVariant3" src="../images/products/silk-emerald.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Variant 3" />
+                    <span style="position: absolute; bottom: 8px; left: 8px; background: rgba(0,0,0,0.7); font-size: 0.72rem; padding: 2px 6px; border-radius: 4px;">Variant 3 &bull; Architectural Shadow</span>
+                  </div>
+                  <!-- Variant 4 -->
+                  <div class="variant-card" style="position: relative; border: 1px solid var(--border-color); border-radius: var(--radius-sm); overflow: hidden; cursor: pointer; aspect-ratio: 1/1;">
+                    <img id="imgVariant4" src="../images/products/abaya-dubai.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Variant 4" />
+                    <span style="position: absolute; bottom: 8px; left: 8px; background: rgba(0,0,0,0.7); font-size: 0.72rem; padding: 2px 6px; border-radius: 4px;">Variant 4 &bull; Studio Pedestal</span>
+                  </div>
+                </div>
+
+                <div style="margin-top: 14px;">
+                  <label style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--text-main); cursor: pointer;">
+                    <input type="checkbox" id="chkAiDisclosure" checked style="accent-color: var(--accent-primary);" />
+                    <span>Attach official Meta/TikTok <strong>'AI-generated info'</strong> disclosure tag</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Right: Dual-Language Captions & Human Actions -->
+              <div>
+                <div class="form-group" style="margin-bottom: 14px;">
+                  <label for="txtCaptionUrdu">Roman Urdu Caption (Customer Copy)</label>
+                  <textarea id="txtCaptionUrdu" rows="6" style="width: 100%; padding: 12px; background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-main); border-radius: var(--radius-sm); font-size: 0.88rem; line-height: 1.45;"></textarea>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 14px;">
+                  <label for="txtCaptionEnglish">English Luxury Copy</label>
+                  <textarea id="txtCaptionEnglish" rows="4" style="width: 100%; padding: 12px; background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-main); border-radius: var(--radius-sm); font-size: 0.88rem; line-height: 1.45;"></textarea>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 18px;">
+                  <label for="txtHashtags">Targeted Hashtags</label>
+                  <input type="text" id="txtHashtags" style="width: 100%; padding: 10px; background: var(--bg-card); border: 1px solid var(--border-color); color: var(--accent-primary); border-radius: var(--radius-sm); font-size: 0.85rem;" />
+                </div>
+
+                <!-- Approval Actions -->
+                <div style="display: flex; gap: 12px;">
+                  <button type="button" id="btnApproveDraft" class="btn btn-success" style="flex: 1; padding: 12px;">
+                    <i class="fas fa-check"></i> Approve & Save to Queue
+                  </button>
+                  <button type="button" id="btnRejectDraft" class="btn btn-danger" style="padding: 12px;">
+                    <i class="fas fa-xmark"></i> Reject
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: LEADS & CRM -->
+      <section id="tab-leads-crm" class="tab-pane">
+        <div class="panel-card">
+          <div class="panel-header">
+            <div>
+              <h3><i class="fas fa-comments"></i> Inbound Conversations & Lead Dossiers</h3>
+              <p class="panel-subtitle">Multi-channel inbox (Instagram DM, WhatsApp, Messenger) with automated intent scoring & human handoff alerts.</p>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <button class="btn btn-sm btn-secondary active"><i class="fas fa-filter"></i> All (14)</button>
+              <button class="btn btn-sm btn-secondary" style="color: #F87171;"><i class="fas fa-fire"></i> Hot (6)</button>
+              <button class="btn btn-sm btn-secondary" style="color: #FBBF24;"><i class="fas fa-temperature-half"></i> Warm (5)</button>
+              <button class="btn btn-sm btn-secondary" style="color: #60A5FA;"><i class="fas fa-user-shield"></i> Handoff (3)</button>
+            </div>
+          </div>
+
+          <!-- Split Layout: Conversations List + Lead Dossier -->
+          <div style="display: grid; grid-template-columns: 1.1fr 1fr; border-bottom: 1px solid var(--border-color);">
+            <!-- Conversation List -->
+            <div style="border-right: 1px solid var(--border-color); max-height: 520px; overflow-y: auto;">
+              <!-- Lead Item 1: Hot Handoff -->
+              <div class="lead-item active" style="padding: 16px 20px; border-bottom: 1px solid var(--border-subtle); background: var(--bg-card-hover); cursor: pointer;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px;">
+                  <div>
+                    <strong style="color: var(--text-main); font-size: 0.95rem;">Fatima Tariq</strong>
+                    <span style="font-size: 0.75rem; color: var(--text-dim); margin-left: 6px;">Karachi</span>
+                  </div>
+                  <span class="score-badge high">Score: 95</span>
+                </div>
+                <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 8px; line-height: 1.4;">
+                  "Mera order book kardo, Front-Open Dubai Abaya size 54. House 14, Block 7, Gulshan Karachi..."
+                </p>
+                <div style="display: flex; gap: 8px; align-items: center;">
+                  <span class="channel-pill wa"><i class="fab fa-whatsapp"></i> WhatsApp</span>
+                  <span class="badge" style="background: rgba(239, 68, 68, 0.2); color: #F87171; border: 1px solid rgba(239, 68, 68, 0.4);">
+                    <i class="fas fa-bell"></i> Human Handoff: Ready to Order
+                  </span>
+                </div>
+              </div>
+
+              <!-- Lead Item 2: Wholesale Inquiry -->
+              <div class="lead-item" style="padding: 16px 20px; border-bottom: 1px solid var(--border-subtle); cursor: pointer;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px;">
+                  <div>
+                    <strong style="color: var(--text-main); font-size: 0.95rem;">Mehwish Boutique</strong>
+                    <span style="font-size: 0.75rem; color: var(--text-dim); margin-left: 6px;">Lahore</span>
+                  </div>
+                  <span class="score-badge high">Score: 92</span>
+                </div>
+                <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 8px; line-height: 1.4;">
+                  "Humari Lahore boutique ke liye 25 pieces wholesale rate pe chahiye. Catalog bhejein..."
+                </p>
+                <div style="display: flex; gap: 8px; align-items: center;">
+                  <span class="channel-pill ig"><i class="fab fa-instagram"></i> Instagram DM</span>
+                  <span class="badge" style="background: rgba(212, 175, 55, 0.15); color: var(--accent-primary);">
+                    Wholesale Inquiry (5+ pcs)
+                  </span>
+                </div>
+              </div>
+
+              <!-- Lead Item 3: Sizing Inquiry -->
+              <div class="lead-item" style="padding: 16px 20px; border-bottom: 1px solid var(--border-subtle); cursor: pointer;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px;">
+                  <div>
+                    <strong style="color: var(--text-main); font-size: 0.95rem;">Zainab Malik</strong>
+                    <span style="font-size: 0.75rem; color: var(--text-dim); margin-left: 6px;">Islamabad</span>
+                  </div>
+                  <span class="score-badge med">Score: 78</span>
+                </div>
+                <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 8px; line-height: 1.4;">
+                  "Meri height 5.2 hai, Mocha gown mein size 52 fit hoga ya 54?"
+                </p>
+                <div style="display: flex; gap: 8px; align-items: center;">
+                  <span class="channel-pill wa"><i class="fab fa-whatsapp"></i> WhatsApp</span>
+                  <span class="status-pill active">AI Replying: Size 52 Recommended</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Lead Dossier Card -->
+            <div style="padding: 24px; background: var(--bg-alt);">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 18px;">
+                <div>
+                  <h4 style="font-size: 1.15rem; color: var(--text-main);">Fatima Tariq</h4>
+                  <p style="font-size: 0.82rem; color: var(--text-muted);">Inquiry Source: WhatsApp Order Desk &bull; Karachi</p>
+                </div>
+                <a href="https://wa.me/923011234567" target="_blank" class="btn btn-sm btn-success" style="gap: 6px;">
+                  <i class="fab fa-whatsapp"></i> Chat on WhatsApp
+                </a>
+              </div>
+
+              <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 16px; margin-bottom: 18px;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; font-size: 0.85rem;">
+                  <div>
+                    <span style="color: var(--text-dim); display: block; font-size: 0.75rem;">INTERESTED PRODUCT</span>
+                    <strong style="color: var(--text-main);">Signature Dubai Front-Open Nidha Abaya</strong>
+                  </div>
+                  <div>
+                    <span style="color: var(--text-dim); display: block; font-size: 0.75rem;">CATALOG PRICE</span>
+                    <strong style="color: var(--accent-primary);">Rs 4,850 + Rs 200 Delivery</strong>
+                  </div>
+                  <div>
+                    <span style="color: var(--text-dim); display: block; font-size: 0.75rem;">PREFERRED SIZE</span>
+                    <strong style="color: var(--text-main);">Size 54 (Length 54")</strong>
+                  </div>
+                  <div>
+                    <span style="color: var(--text-dim); display: block; font-size: 0.75rem;">PAYMENT MODE</span>
+                    <strong style="color: #34D399;">Cash on Delivery (Open Parcel Allowed)</strong>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Owner Action Bar -->
+              <div style="display: flex; gap: 10px;">
+                <button class="btn btn-sm btn-primary" onclick="alert('Order booking confirmed! Dispatch SMS sent to rider.')">
+                  <i class="fas fa-box-check"></i> Confirm & Book Dispatch
+                </button>
+                <button class="btn btn-sm btn-secondary" onclick="alert('Conversation marked as resolved.')">
+                  <i class="fas fa-check"></i> Mark Handled
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Interactive Agent Dialogue Tester -->
+          <div style="padding: 20px 24px; background: var(--bg-card);">
+            <h4 style="font-size: 0.95rem; margin-bottom: 12px; color: var(--accent-primary);"><i class="fas fa-vial"></i> Live Roman Urdu Dialogue Simulator</h4>
+            <div style="display: flex; gap: 12px;">
+              <input type="text" id="simCustomerMessageInput" placeholder="Roman Urdu message type karein (e.g. 'Dubai abaya ka rate kya hai?' ya 'size 54 chahiye')" style="flex: 1; padding: 12px; background: var(--bg-alt); border: 1px solid var(--border-color); color: var(--text-main); border-radius: var(--radius-sm); font-size: 0.88rem;" />
+              <button type="button" id="btnRunSimulate" class="btn btn-primary" style="padding: 12px 20px;">
+                <i class="fas fa-paper-plane"></i> Test AI Reply
+              </button>
+            </div>
+            <div id="simReplyBox" style="display: none; margin-top: 14px; padding: 14px; background: var(--bg-alt); border-radius: var(--radius-sm); border: 1px solid var(--border-color); font-size: 0.88rem;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                <strong style="color: var(--accent-secondary);"><i class="fas fa-robot"></i> AI Conversation Agent:</strong>
+                <span id="simScoreBadge" class="score-badge med"></span>
+              </div>
+              <p id="simReplyText" style="line-height: 1.45;"></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 4: B2B OUTREACH -->
+      <section id="tab-b2b-outreach" class="tab-pane">
+        <div class="panel-card">
+          <div class="panel-header">
+            <div>
+              <h3><i class="fas fa-paper-plane"></i> B2B Boutique Wholesale Outreach</h3>
+              <p class="panel-subtitle">Deliverability-first outreach engine connecting with Pakistan's leading fashion boutiques & modest apparel studios.</p>
+            </div>
+            <span class="badge" style="background: rgba(52, 211, 153, 0.15); color: #34D399; border: 1px solid rgba(52, 211, 153, 0.3);">
+              <i class="fas fa-shield-check"></i> Warm-Up Week 1: 10 Sends/Day Cap
+            </span>
+          </div>
+
+          <!-- Deliverability Health Metrics -->
+          <div style="padding: 24px; border-bottom: 1px solid var(--border-color);">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px;">
+              <div style="background: var(--bg-alt); padding: 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+                <span style="font-size: 0.72rem; color: var(--text-dim); text-transform: uppercase;">Today's Warm-up Cap</span>
+                <h4 style="color: var(--accent-primary); font-size: 1.3rem; margin-top: 4px;">4 / 10 Sent</h4>
+                <small style="color: var(--text-muted); font-size: 0.75rem;">3-8 min random intervals</small>
+              </div>
+
+              <div style="background: var(--bg-alt); padding: 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+                <span style="font-size: 0.72rem; color: var(--text-dim); text-transform: uppercase;">Bounce Rate</span>
+                <h4 style="color: #34D399; font-size: 1.3rem; margin-top: 4px;">0.0%</h4>
+                <small style="color: var(--text-muted); font-size: 0.75rem;">Auto-pause ceiling: 2.0%</small>
+              </div>
+
+              <div style="background: var(--bg-alt); padding: 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+                <span style="font-size: 0.72rem; color: var(--text-dim); text-transform: uppercase;">Active Sending Hours</span>
+                <h4 style="color: var(--text-main); font-size: 1.3rem; margin-top: 4px;">10am – 6pm PKT</h4>
+                <small style="color: var(--text-muted); font-size: 0.75rem;">No night/weekend spam</small>
+              </div>
+
+              <div style="background: var(--bg-alt); padding: 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+                <span style="font-size: 0.72rem; color: var(--text-dim); text-transform: uppercase;">Domain Authentication</span>
+                <h4 style="color: #34D399; font-size: 1.3rem; margin-top: 4px;"><i class="fas fa-check-double"></i> Verified</h4>
+                <small style="color: var(--text-muted); font-size: 0.75rem;">SPF, DKIM, DMARC active</small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Verified Boutique Directory -->
+          <div style="padding: 24px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+              <h4 style="font-size: 1.05rem; color: var(--text-main);"><i class="fas fa-store"></i> Verified Boutique Directory</h4>
+              <button class="btn btn-sm btn-secondary" onclick="alert('Boutique CSV import requires verified source URLs for each lead.')">
+                <i class="fas fa-file-import"></i> Import Boutiques CSV
+              </button>
+            </div>
+
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Boutique Business</th>
+                    <th>City</th>
+                    <th>Public Contact Email</th>
+                    <th>Verified Public Source</th>
+                    <th>Status</th>
+                    <th>Human Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Al-Haya Modest Wear</strong><br><small>Gulberg III</small></td>
+                    <td>Lahore</td>
+                    <td>contact@alhayaboutique.pk</td>
+                    <td><a href="https://alhayaboutique.pk/contact-us" target="_blank" style="color: var(--accent-info); text-decoration: none;"><i class="fas fa-external-link"></i> Website Directory</a></td>
+                    <td><span class="badge-status closed">Responded: Interested</span></td>
+                    <td><button class="btn btn-sm btn-primary" onclick="alert('Wholesale catalog PDF and rate card queued for WhatsApp dispatch.')"><i class="fas fa-share"></i> Send Catalog</button></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Noor-e-Haram Studio</strong><br><small>F-7 Markaz</small></td>
+                    <td>Islamabad</td>
+                    <td>info@nooreharam.pk</td>
+                    <td><a href="https://instagram.com/nooreharam.pk" target="_blank" style="color: var(--accent-info); text-decoration: none;"><i class="fas fa-external-link"></i> Instagram Bio</a></td>
+                    <td><span class="badge-status new">Pending Approval</span></td>
+                    <td><button class="btn btn-sm btn-success" onclick="alert('Approved for tomorrow 11:30 AM PKT warm-up batch.')"><i class="fas fa-check"></i> Approve Draft</button></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Zara Hijabs & Gowns</strong><br><small>Tariq Road</small></td>
+                    <td>Karachi</td>
+                    <td>wholesale@zarahijabs.com</td>
+                    <td><a href="https://facebook.com/zarahijabs" target="_blank" style="color: var(--accent-info); text-decoration: none;"><i class="fas fa-external-link"></i> Facebook Page</a></td>
+                    <td><span class="badge-status new">Pending Approval</span></td>
+                    <td><button class="btn btn-sm btn-success" onclick="alert('Approved for tomorrow 2:15 PM PKT warm-up batch.')"><i class="fas fa-check"></i> Approve Draft</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 5: SETTINGS -->
+      <section id="tab-settings" class="tab-pane">
+        <div class="panel-card">
+          <div class="panel-header">
+            <h3><i class="fas fa-sliders"></i> Brand Configuration (`brands/hijab.json`)</h3>
+          </div>
+          <div style="padding: 20px;">
+            <pre id="brandConfigView" style="background: var(--bg-alt); padding: 16px; border-radius: 8px; font-size: 0.85rem; overflow-x: auto;"></pre>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- App Script -->
+  <script src="js/admin.js"></script>
+</body>
+</html>
