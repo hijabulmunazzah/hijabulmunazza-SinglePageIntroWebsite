@@ -6,22 +6,20 @@
 (function () {
   'use strict';
 
-  const OWNER_WHATSAPP = '923071771829'; // +92 307 1771829
+  function getOwnerWhatsAppNumber() {
+    return (window.HUM_CONFIG && window.HUM_CONFIG.whatsappNumber)
+      ? window.HUM_CONFIG.whatsappNumber
+      : '923071771829';
+  }
 
-  function getWhatsAppUrl(intent) {
+  function getWhatsAppUrl() {
     let text = '';
     const currentProd = document.querySelector('#detailHeadingTitle')?.textContent?.trim();
     const currentShade = document.querySelector('#selectedColorLabel')?.textContent?.trim();
 
-    if (intent === 'demo') {
-      text = currentProd
-        ? `Assalam o Alaikum! Mujhe ${currentProd} (${currentShade || 'Default'}) ki live video demo aur fabric fall dekhna hai.`
-        : `Assalam o Alaikum! Mujhe French Jilbab ki fabric quality, shades aur sizing ki live video demo dekhna hai.`;
-    } else {
-      text = currentProd
-        ? `Assalam o Alaikum! Mujhe ${currentProd} (${currentShade || 'Default'}) ke baray mein sawal hai.`
-        : `Assalam o Alaikum Hijab ul Munnazah! Mujhe French Jilbabs aur factory wholesale rates ke baray mein maloomat chahiye.`;
-    }
+    text = currentProd
+      ? `Assalam o Alaikum! Mujhe ${currentProd} (${currentShade || 'Default'}) ke baray mein sawal hai.`
+      : `Assalam o Alaikum Hijab-ul-Munnazah! Mujhe French Jilbabs aur factory wholesale rates ke baray mein maloomat chahiye.`;
 
     try {
       if (window.HUMTracker && typeof window.HUMTracker.getBrowsingContextText === 'function') {
@@ -30,7 +28,8 @@
       }
     } catch (e) {}
 
-    return `https://wa.me/${OWNER_WHATSAPP}?text=${encodeURIComponent(text)}`;
+    const num = getOwnerWhatsAppNumber();
+    return `https://wa.me/${num}?text=${encodeURIComponent(text)}`;
   }
 
   function initChatAssistant() {
@@ -46,17 +45,20 @@
 
         <!-- Assistant Bottom Sheet / Card (Open by default like TaxiDex) -->
         <div class="chat-assistant-card open" id="chatAssistantCard" role="dialog" aria-labelledby="assistantTitle" aria-hidden="false">
+          <!-- Subtle Brand Watermark (TaxiDex style) -->
+          <div class="sheet-watermark" aria-hidden="true">Hijab-ul-Munnazah</div>
+
           <!-- Mobile Grab / Drag Handle -->
           <div class="sheet-grab-bar" aria-hidden="true"></div>
 
           <!-- Header -->
           <div class="sheet-header">
             <div class="sheet-avatar">
-              <img src="images/logo.png" alt="Hijab ul Munnazah Emblem" />
+              <img src="images/logo.png" alt="Hijab-ul-Munnazah Emblem" />
             </div>
             <div class="sheet-header-text">
               <div class="sheet-title" id="assistantTitle">
-                Hijab ul Munnazah Assistant
+                Hijab-ul-Munnazah Assistant
               </div>
               <div class="sheet-subtitle">
                 Answers in seconds — a person can join
@@ -70,18 +72,15 @@
           <!-- Body -->
           <div class="sheet-body">
             <p>
-              Welcome back 👋 Want to pick up where you left off — pricing, switching, or a quick demo?
+              Welcome back 👋 Want to pick up where you left off — pricing, shades, or custom sizing?
             </p>
           </div>
 
-          <!-- Actions (2 Buttons matching TaxiDex) -->
-          <div class="sheet-actions">
+          <!-- Actions (Single full-width Continue button — Book a Demo removed) -->
+          <div class="sheet-actions single-action">
             <a href="#" class="sheet-btn-primary" id="assistantContinueBtn" target="_blank">
               Continue
             </a>
-            <button type="button" class="sheet-btn-secondary" id="assistantDemoBtn">
-              Book a demo
-            </button>
           </div>
         </div>
 
@@ -100,15 +99,13 @@
     const toggleBtn = wrapper.querySelector('#toggleAssistantBtn');
     const closeBtn = wrapper.querySelector('#closeAssistantBtn');
     const continueBtn = wrapper.querySelector('#assistantContinueBtn');
-    const demoBtn = wrapper.querySelector('#assistantDemoBtn');
-    const grabBar = wrapper.querySelector('.sheet-grab-bar');
 
     function openAssistant() {
       card.classList.add('open');
       backdrop.classList.add('active');
       card.setAttribute('aria-hidden', 'false');
       toggleBtn.setAttribute('aria-expanded', 'true');
-      if (continueBtn) continueBtn.href = getWhatsAppUrl('continue');
+      if (continueBtn) continueBtn.href = getWhatsAppUrl();
     }
 
     function closeAssistant(userDismissed = false) {
@@ -145,13 +142,7 @@
 
     // Continue button
     continueBtn.addEventListener('click', () => {
-      continueBtn.href = getWhatsAppUrl('continue');
-      closeAssistant(false);
-    });
-
-    // Book a demo button
-    demoBtn.addEventListener('click', () => {
-      window.open(getWhatsAppUrl('demo'), '_blank');
+      continueBtn.href = getWhatsAppUrl();
       closeAssistant(false);
     });
 
@@ -164,7 +155,6 @@
     card.addEventListener('touchend', (e) => {
       const touchEndY = e.changedTouches[0].clientY;
       if (touchEndY - touchStartY > 60) {
-        // Swiped down more than 60px
         closeAssistant(true);
       }
     }, { passive: true });
